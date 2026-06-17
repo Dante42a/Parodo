@@ -1,0 +1,17 @@
+defaults:
+  - base
+
+model:
+  name: "segformer"
+  pretrained_model: "nvidia/mit-b3"
+  num_labels: 4
+  decoder_hidden_size: 256
+
+training:
+  encoder_lr: 6.0e-5
+  decoder_lr: 6.0e-5   # SegFormer uses uniform LR for all-MLP decoder
+  batch_size: 2
+  grad_accum_steps: 2   # effective batch = 4
+  amp: true
+
+# expected VRAM: ~6.5 GB at batch=2

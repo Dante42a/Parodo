@@ -1,0 +1,18 @@
+defaults:
+  - base
+
+model:
+  name: "yolov8_seg"
+  variant: "yolov8m-seg"   # medium: best speed/accuracy trade-off
+  pretrained: true
+  # ultralytics training is separate; this config covers evaluation wrapper
+  ultralytics_data_yaml: "data/yolo_data.yaml"
+  ultralytics_epochs: 60
+  ultralytics_imgsz: 1024
+  ultralytics_batch: 4
+  ultralytics_device: 0
+
+# Note: YOLO is trained via ultralytics CLI, then evaluated
+# through the same src/metrics/ pipeline as other models.
+# Unique advantage: produces per-tooth instance masks directly.
+# expected VRAM: ~5 GB during training

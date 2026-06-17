@@ -1,0 +1,63 @@
+seed: 42
+
+data:
+  root: "data/processed"
+  image_size: [512, 1024]   # [H, W]
+  num_classes: 4
+  class_names: ["background", "tooth", "bone", "cortical"]
+  # class weights (inverse pixel frequency; refined after EDA in notebook 01)
+  class_weights: [0.1, 1.0, 2.0, 10.0]
+  batch_size: 4
+  num_workers: 4
+  split_dir: "data/splits"
+  pin_memory: true
+
+augmentation:
+  horizontal_flip_p: 0.5
+  brightness_contrast_p: 0.3
+  clahe_p: 0.3
+  elastic_p: 0.2
+  gauss_noise_p: 0.3
+  coarse_dropout_p: 0.2
+
+training:
+  max_epochs: 60
+  optimizer: "adamw"
+  encoder_lr: 1.0e-4
+  decoder_lr: 5.0e-4
+  weight_decay: 1.0e-4
+  scheduler: "cosine_warmup"
+  warmup_epochs: 5
+  grad_clip: 1.0
+  amp: true
+  # frozen encoder phase before full fine-tuning
+  freeze_encoder_epochs: 5
+
+loss:
+  name: "dice_bce"
+  dice_weight: 0.5
+  bce_weight: 0.5
+
+logging:
+  mlflow_experiment: "parodo-segmentation"
+  log_every_n_steps: 10
+
+checkpoint:
+  dirpath: "checkpoints"
+  monitor: "val/mIoU"
+  mode: "max"
+  save_top_k: 3
+  filename: "{epoch}-{val/mIoU:.4f}"
+
+stage2:
+  # bone loss ratio thresholds (fraction of root length)
+  mild_threshold: 0.33
+  severe_threshold: 0.67
+  # bone_loss_ratio < normal_threshold AND cortical present → Normal
+  normal_threshold: 0.10
+  # cortical plate considered absent if mask coverage < this fraction of tooth width
+  cortical_min_coverage: 0.3
+  # number of affected teeth threshold for generalized vs local
+  generalized_min_teeth: 4
+  # anatomical approximation: CEJ is at this fraction from crown top
+  cej_fraction: 0.40

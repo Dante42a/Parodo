@@ -1,0 +1,20 @@
+defaults:
+  - base
+
+model:
+  name: "swin_unet"
+  encoder_name: "swin_base_patch4_window7_224"
+  encoder_weights: "imagenet22k"  # timm pretrained key
+  in_channels: 3
+  classes: 4
+  # input must be divisible by 32 (patch_size * window_size = 4*7=28, padded to 32)
+  pad_to_multiple: 32
+
+training:
+  encoder_lr: 5.0e-5   # transformers need lower LR
+  decoder_lr: 2.0e-4
+  batch_size: 2         # higher VRAM usage
+  grad_accum_steps: 4   # effective batch = 8
+  amp: true
+
+# expected VRAM: ~8 GB at batch=2 with gradient checkpointing
