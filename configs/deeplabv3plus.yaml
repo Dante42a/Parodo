@@ -11,6 +11,8 @@ model:
 training:
   encoder_lr: 1.0e-4
   decoder_lr: 5.0e-4
-  batch_size: 4
 
-# expected VRAM: ~7 GB at batch=4
+data:
+  num_workers: 0  # network share + Windows = worker crashes
+
+# RTX 4070 12GB — batch=4 at 512x1024 fits comfortably
