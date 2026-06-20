@@ -37,6 +37,7 @@ class PeriodontalDataModule(pl.LightningDataModule):
             shuffle=True,
             num_workers=self.cfg.data.num_workers,
             pin_memory=self.cfg.data.pin_memory,
+            drop_last=True,
         )
 
     def val_dataloader(self):
