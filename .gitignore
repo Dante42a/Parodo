@@ -45,6 +45,7 @@ reports/figures/
 logs/
 *.log
 tb_logs/
+lightning_logs/
 
 # HuggingFace cache
 .cache/
