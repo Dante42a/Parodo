@@ -34,10 +34,20 @@ app/models/*.onnx
 mlruns/
 mlartifacts/
 
+# Reports (generated, not source)
+reports/results/
+reports/figures/
+
+# Generated report
+*.docx
+
 # Logs
 logs/
 *.log
 tb_logs/
+
+# HuggingFace cache
+.cache/
 
 # OS
 .DS_Store

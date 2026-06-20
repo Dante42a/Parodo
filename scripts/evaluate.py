@@ -7,8 +7,11 @@ Usage:
 """
 
 import argparse
+import sys
 import time
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import numpy as np
 import pandas as pd
@@ -26,8 +29,12 @@ from src.metrics.segmentation import compute_iou_per_class, compute_dice_per_cla
 
 def evaluate(cfg, checkpoint_path: str):
     model = create_model(cfg)
-    state = torch.load(checkpoint_path, map_location="cpu")
-    model.load_state_dict(state.get("state_dict", state))
+    state = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
+    raw = state.get("state_dict", state)
+    # Lightning wraps model as self.model → strip "model." prefix if present
+    if all(k.startswith("model.") for k in raw if not k.startswith("criterion")):
+        raw = {k[len("model."):]: v for k, v in raw.items() if k.startswith("model.")}
+    model.load_state_dict(raw)
     model.eval()
 
     device = "cuda" if torch.cuda.is_available() else "cpu"

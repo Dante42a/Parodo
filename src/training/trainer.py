@@ -51,17 +51,17 @@ class SegmentationModule(pl.LightningModule):
         dice = compute_dice_per_class(preds, masks, self.num_classes)
         mean_iou = float(np.nanmean(iou))
 
-        self.log("val/loss", loss, prog_bar=True)
-        self.log("val/mIoU", mean_iou, prog_bar=True)
+        self.log("val_loss", loss, prog_bar=True)
+        self.log("val_mIoU", mean_iou, prog_bar=True)
 
         names = self.cfg.data.class_names
         for i, name in enumerate(names):
             if not np.isnan(iou[i]):
-                self.log(f"val/IoU_{name}", iou[i])
+                self.log(f"val_IoU_{name}", iou[i])
             if not np.isnan(dice[i]):
-                self.log(f"val/Dice_{name}", dice[i])
+                self.log(f"val_Dice_{name}", dice[i])
 
-        return {"val/loss": loss, "val/mIoU": mean_iou}
+        return {"val_loss": loss, "val_mIoU": mean_iou}
 
     def on_validation_epoch_end(self):
         # Log epoch metrics to MLflow

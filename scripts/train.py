@@ -8,8 +8,12 @@ Usage:
 """
 
 import argparse
+import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+import torch
 import mlflow
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping, LearningRateMonitor
@@ -33,6 +37,7 @@ def main():
     model_cfg = OmegaConf.load(args.config)
     cfg = OmegaConf.merge(base_cfg, model_cfg)
 
+    torch.set_float32_matmul_precision("high")
     seed_everything(cfg.seed)
 
     model = create_model(cfg)
@@ -45,7 +50,7 @@ def main():
             monitor=cfg.checkpoint.monitor,
             mode=cfg.checkpoint.mode,
             save_top_k=cfg.checkpoint.save_top_k,
-            filename=f"{cfg.model.name}-{{epoch}}-{{val/mIoU:.4f}}",
+            filename=f"{cfg.model.name}-{{epoch}}-{{val_mIoU:.4f}}",
             save_last=True,
         ),
         EarlyStopping(monitor=cfg.checkpoint.monitor, patience=10, mode=cfg.checkpoint.mode),

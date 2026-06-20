@@ -55,7 +55,8 @@ class PeriodontalDataset(Dataset):
         if self.transform:
             augmented = self.transform(image=image, mask=mask)
             image = augmented["image"]
-            mask = torch.from_numpy(augmented["mask"]).long()
+            m = augmented["mask"]
+            mask = m.long() if isinstance(m, torch.Tensor) else torch.from_numpy(m).long()
         else:
             image = torch.from_numpy(image.transpose(2, 0, 1)).float() / 255.0
             mask = torch.from_numpy(mask).long()

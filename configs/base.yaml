@@ -44,10 +44,10 @@ logging:
 
 checkpoint:
   dirpath: "checkpoints"
-  monitor: "val/mIoU"
+  monitor: "val_mIoU"
   mode: "max"
   save_top_k: 3
-  filename: "{epoch}-{val/mIoU:.4f}"
+  filename: "{epoch}-{val_mIoU:.4f}"
 
 stage2:
   # bone loss ratio thresholds (fraction of root length)

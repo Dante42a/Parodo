@@ -20,10 +20,9 @@ from sklearn.model_selection import train_test_split
 
 
 def patient_id_from_image_id(image_id: str) -> str:
-    # DENTEX IDs are like "train_0001" — patient = first token
-    # Adjust this function for other naming conventions
-    parts = image_id.rsplit("_", 1)
-    return parts[0] if len(parts) > 1 else image_id
+    # DENTEX IDs are "train_N" — no real patient grouping available,
+    # so treat each image as its own unit for the split.
+    return image_id
 
 
 def main():

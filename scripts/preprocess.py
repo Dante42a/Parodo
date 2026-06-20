@@ -56,20 +56,39 @@ def process_dentex(src: Path, out: Path, target_w: int, target_h: int):
     img_out.mkdir(parents=True, exist_ok=True)
     mask_out.mkdir(parents=True, exist_ok=True)
 
-    # Find annotation JSON (disease-level split has richest annotations)
-    ann_dir = src / "training_data" / "quadrant_enumeration_disease"
-    ann_files = sorted(ann_dir.glob("*.json")) if ann_dir.exists() else []
+    td = src / "training_data"
 
-    rows = []
-    image_dirs = [
-        src / "training_data" / "quadrant_enumeration_disease",
-        src / "xrays",
+    # Collect annotation JSONs from all labeled splits (richest first)
+    ann_priority = [
+        "quadrant-enumeration-disease",
+        "quadrant_enumeration",
+        "quadrant",
     ]
+    ann_files = []
+    for split in ann_priority:
+        split_dir = td / split
+        if split_dir.exists():
+            ann_files += sorted(split_dir.glob("*.json"))
 
+    # Collect image paths from all splits that have xrays
     image_paths = []
-    for d in image_dirs:
-        if d.exists():
-            image_paths += sorted(d.glob("*.png")) + sorted(d.glob("*.jpg"))
+    for split_dir in sorted(td.iterdir()):
+        if not split_dir.is_dir():
+            continue
+        xrays_dir = split_dir / "xrays"
+        search_dir = xrays_dir if xrays_dir.exists() else split_dir
+        image_paths += sorted(search_dir.glob("*.png")) + sorted(search_dir.glob("*.jpg"))
+
+    # Deduplicate by stem (same image can appear in multiple splits)
+    seen = set()
+    unique_paths = []
+    for p in image_paths:
+        if p.stem not in seen:
+            seen.add(p.stem)
+            unique_paths.append(p)
+    image_paths = unique_paths
+
+    print(f"Found {len(image_paths)} unique images, {len(ann_files)} annotation files")
 
     # Build id→annotation map
     ann_map = {}
@@ -82,6 +101,7 @@ def process_dentex(src: Path, out: Path, target_w: int, target_h: int):
             stem = Path(fname).stem
             ann_map.setdefault(stem, []).append(ann)
 
+    rows = []
     for img_path in tqdm(image_paths, desc="Preprocessing"):
         stem = img_path.stem
 

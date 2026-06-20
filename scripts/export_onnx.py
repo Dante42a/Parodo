@@ -8,7 +8,10 @@ Usage:
 """
 
 import argparse
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import torch
 from omegaconf import OmegaConf

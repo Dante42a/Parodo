@@ -24,7 +24,7 @@ import requests
 from tqdm import tqdm
 
 
-ZENODO_BASE = "https://zenodo.org/record/7812257/files"
+ZENODO_BASE = "https://zenodo.org/records/7812323/files/training_data.zip?download=1"
 FILES = {
     "training_data.zip": f"{ZENODO_BASE}/training_data.zip?download=1",
 }
@@ -35,8 +35,8 @@ def download_file(url: str, dest: Path):
     if dest.exists():
         print(f"  Already downloaded: {dest.name}")
         return
-    print(f"  Downloading {dest.name} ...")
-    with requests.get(url, stream=True, timeout=120) as r:
+    print(f"  Downloading {dest.name} (~10.9 GB, this will take a while) ...")
+    with requests.get(url, stream=True, timeout=30) as r:  # timeout = connect only
         r.raise_for_status()
         total = int(r.headers.get("content-length", 0))
         with open(dest, "wb") as f, tqdm(total=total, unit="B", unit_scale=True) as bar:
