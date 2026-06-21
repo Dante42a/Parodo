@@ -3,6 +3,9 @@ Swin-UNet: Swin Transformer encoder (timm) + custom transposed-conv decoder.
 
 Input is padded to a multiple of `pad_to_multiple` before encoding,
 then cropped back to the original size in the output mask.
+
+pad_to_multiple must be divisible by (patch_size * window_size):
+  swin_base_patch4_window7 → 4*7 = 28
 """
 
 import math
@@ -31,7 +34,6 @@ class DecoderBlock(nn.Module):
     def forward(self, x, skip=None):
         x = self.up(x)
         if skip is not None:
-            # align spatial dims in case of rounding
             if x.shape != skip.shape:
                 x = F.interpolate(x, size=skip.shape[2:], mode="bilinear", align_corners=False)
             x = torch.cat([x, skip], dim=1)
@@ -39,7 +41,8 @@ class DecoderBlock(nn.Module):
 
 
 class SwinUNet(nn.Module):
-    def __init__(self, encoder_name: str, pretrained: bool, num_classes: int, pad_to_multiple: int = 32):
+    def __init__(self, encoder_name: str, pretrained: bool, num_classes: int,
+                 pad_to_multiple: int = 28, img_size: tuple = (532, 1036)):
         super().__init__()
         self.pad_multiple = pad_to_multiple
 
@@ -48,10 +51,10 @@ class SwinUNet(nn.Module):
             pretrained=pretrained,
             features_only=True,
             out_indices=(0, 1, 2, 3),
+            img_size=img_size,
         )
         encoder_channels = self.encoder.feature_info.channels()  # e.g. [128, 256, 512, 1024]
 
-        # Build decoder top-down
         ch = encoder_channels
         self.dec3 = DecoderBlock(ch[3], ch[2], 256)
         self.dec2 = DecoderBlock(256, ch[1], 128)
@@ -70,10 +73,12 @@ class SwinUNet(nn.Module):
         return x, (h, w)
 
     def forward(self, x):
-        orig_size = x.shape[2:]
+        orig_h, orig_w = x.shape[2], x.shape[3]
         x, (h, w) = self._pad(x)
 
-        feats = self.encoder(x)  # list of 4 feature maps
+        feats = self.encoder(x)
+        # Swin outputs NHWC → convert to NCHW for Conv2d decoder
+        feats = [f.permute(0, 3, 1, 2).contiguous() for f in feats]
 
         d = self.dec3(feats[3], feats[2])
         d = self.dec2(d, feats[1])
@@ -81,7 +86,6 @@ class SwinUNet(nn.Module):
         d = self.dec0(d)
         out = self.head(d)
 
-        # crop padding
         out = out[:, :, :h, :w]
         return out
 
@@ -89,9 +93,17 @@ class SwinUNet(nn.Module):
 def build_swin_unet(cfg: DictConfig) -> nn.Module:
     m = cfg.model
     pretrained = m.get("encoder_weights", "imagenet22k") is not None
+    pad_multiple = m.get("pad_to_multiple", 28)
+
+    # Compute padded input size so encoder knows exact spatial dims at init time
+    H, W = cfg.data.image_size
+    pH = math.ceil(H / pad_multiple) * pad_multiple
+    pW = math.ceil(W / pad_multiple) * pad_multiple
+
     return SwinUNet(
         encoder_name=m.encoder_name,
         pretrained=pretrained,
         num_classes=m.classes,
-        pad_to_multiple=m.get("pad_to_multiple", 32),
+        pad_to_multiple=pad_multiple,
+        img_size=(pH, pW),
     )

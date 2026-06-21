@@ -33,6 +33,8 @@ app/models/*.onnx
 # MLflow
 mlruns/
 mlartifacts/
+mlflow.db
+*.db
 
 # Reports (generated, not source)
 reports/results/

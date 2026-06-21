@@ -7,8 +7,8 @@ model:
   encoder_weights: "imagenet22k"  # timm pretrained key
   in_channels: 3
   classes: 4
-  # input must be divisible by 32 (patch_size * window_size = 4*7=28, padded to 32)
-  pad_to_multiple: 32
+  # pad_to_multiple must be divisible by patch*window = 4*7 = 28
+  pad_to_multiple: 28
 
 training:
   encoder_lr: 5.0e-5   # transformers need lower LR
