@@ -73,8 +73,8 @@ class SwinUNet(nn.Module):
         return x, (h, w)
 
     def forward(self, x):
-        orig_h, orig_w = x.shape[2], x.shape[3]
         x, (h, w) = self._pad(x)
+        padded_h, padded_w = x.shape[2], x.shape[3]
 
         feats = self.encoder(x)
         # Swin outputs NHWC → convert to NCHW for Conv2d decoder
@@ -84,6 +84,9 @@ class SwinUNet(nn.Module):
         d = self.dec2(d, feats[1])
         d = self.dec1(d, feats[0])
         d = self.dec0(d)
+
+        # Swin downsamples ×32 but decoder only upsamples ×16 → upsample the rest
+        d = F.interpolate(d, size=(padded_h, padded_w), mode="bilinear", align_corners=False)
         out = self.head(d)
 
         out = out[:, :, :h, :w]
