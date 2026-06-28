@@ -44,9 +44,9 @@ SEVERITY_COLORS = {
 }
 
 
-def load_pipeline(model_path: str) -> PeriodontalPipeline:
+def load_pipeline(model_path: str, yolo_path: str = None) -> PeriodontalPipeline:
     cfg = OmegaConf.load("configs/base.yaml")
-    return PeriodontalPipeline(model_path, cfg=cfg)
+    return PeriodontalPipeline(model_path, cfg=cfg, yolo_path=yolo_path)
 
 
 def analyze_opg(image: np.ndarray, pipeline: PeriodontalPipeline):
@@ -86,8 +86,8 @@ def analyze_opg(image: np.ndarray, pipeline: PeriodontalPipeline):
     return overlay_rgb, table_md, summary
 
 
-def build_demo(model_path: str) -> gr.Blocks:
-    pipeline = load_pipeline(model_path)
+def build_demo(model_path: str, yolo_path: str = None) -> gr.Blocks:
+    pipeline = load_pipeline(model_path, yolo_path=yolo_path)
 
     with gr.Blocks(title="Анализ тканей пародонта по ОПТГ") as demo:
         gr.Markdown("# 🦷 Анализ тканей пародонта по ОПТГ\n"
@@ -132,16 +132,17 @@ def build_demo(model_path: str) -> gr.Blocks:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="app/models/best_model.onnx")
+    parser.add_argument("--yolo", default=None, help="Path to YOLOv8-seg .pt checkpoint for tooth instances")
     parser.add_argument("--port", type=int, default=7860)
     parser.add_argument("--share", action="store_true")
     args = parser.parse_args()
 
     if not Path(args.model).exists():
         print(f"Model not found at {args.model}.")
-        print("After training, export with: python scripts/export_onnx.py --config configs/<best>.yaml --checkpoint <ckpt>")
+        print("Export with: python scripts/export_onnx.py --config configs/<best>.yaml --checkpoint <ckpt>")
         return
 
-    demo = build_demo(args.model)
+    demo = build_demo(args.model, yolo_path=args.yolo)
     demo.launch(server_port=args.port, share=args.share)
 
 

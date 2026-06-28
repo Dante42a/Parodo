@@ -28,11 +28,20 @@ def main():
 
     base_cfg = OmegaConf.load("configs/base.yaml")
     model_cfg = OmegaConf.load(args.config)
-    cfg = OmegaConf.merge(base_cfg, model_cfg)
+    defaults = OmegaConf.to_container(model_cfg, resolve=False).get("defaults", [])
+    if defaults:
+        parent_name = defaults[0].lstrip("- ").strip()
+        parent_cfg = OmegaConf.load(f"configs/{parent_name}.yaml")
+        cfg = OmegaConf.merge(base_cfg, parent_cfg, model_cfg)
+    else:
+        cfg = OmegaConf.merge(base_cfg, model_cfg)
 
     model = create_model(cfg)
-    state = torch.load(args.checkpoint, map_location="cpu")
-    model.load_state_dict(state.get("state_dict", state))
+    state = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
+    raw = state.get("state_dict", state)
+    if all(k.startswith("model.") for k in raw if not k.startswith("criterion")):
+        raw = {k[len("model."):]: v for k, v in raw.items() if not k.startswith("criterion")}
+    model.load_state_dict(raw)
     model.eval()
 
     h, w = cfg.data.image_size

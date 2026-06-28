@@ -22,6 +22,7 @@ env/
 data/raw/
 data/processed/
 data/augmented/
+data/yolo_teeth/
 
 # Model checkpoints (too large)
 checkpoints/
