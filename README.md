@@ -45,16 +45,18 @@
     └─ итоговый диагноз + степень тяжести
 ```
 
-### 6 сравниваемых архитектур
+### 5 обученных архитектур (+ бонусная)
 
-| # | Модель | Библиотека | Особенность |
-|---|--------|-----------|-------------|
-| 1 | U-Net | segmentation-models-pytorch | Базовая линия, ResNet-50 |
-| 2 | U-Net++ | segmentation-models-pytorch | Плотные skip-соединения, EfficientNet-B4 |
-| 3 | Swin-UNet | timm | Чистый трансформер, Swin-B |
-| 4 | SegFormer | HuggingFace | All-MLP декодер, MiT-B3 |
-| 5 | YOLOv8-seg | ultralytics | Instance segmentation |
-| 6 | DeepLabV3+ | segmentation-models-pytorch | ASPP, ResNet-101 |
+| # | Модель | Backbone | mIoU (test) | FPS | Статус |
+|---|--------|----------|-------------|-----|--------|
+| 1 | U-Net | ResNet-50 | 0.588 | 51.6 | ✅ обучена |
+| 2 | U-Net++ | EfficientNet-B4 | 0.609 | 23.8 | ✅ обучена |
+| 3 | SegFormer | MiT-B3 | 0.589 | 23.2 | ✅ обучена |
+| 4 | DeepLabV3+ | ResNet-101 | 0.623 | 41.2 | ✅ обучена |
+| 5 | **Swin-UNet** | **Swin-B (IN-22k)** | **0.638** | **21.1** | ✅ **лучшая** |
+| — | YOLOv8-seg | YOLOv8m | — | — | instance seg., отдельная парадигма |
+
+> mIoU считается по классам background + tooth (маски bone/cortical в процессе разметки)
 
 ---
 
@@ -62,10 +64,11 @@
 
 ```
 Parodo/
-├── configs/            # YAML-конфиги для каждой модели (base.yaml + 6 моделей)
+├── configs/            # YAML-конфиги для каждой модели (base.yaml + 5 моделей)
 ├── data/
-│   ├── raw/            # Исходные датасеты (DENTEX 2023, Tufts)
+│   ├── raw/            # Исходные датасеты (DENTEX 2023)
 │   ├── processed/      # Предобработанные PNG + маски + metadata.csv
+│   ├── annotations/    # LabelMe JSON — ручная разметка bone/cortical (~100 снимков)
 │   └── splits/         # train.txt / val.txt / test.txt
 ├── src/
 │   ├── data/           # Dataset, DataModule, аугментации (Albumentations)
@@ -105,64 +108,62 @@ Parodo/
 # 1. Установить зависимости
 pip install -r requirements.txt
 
-# 2. Скачать датасет DENTEX 2023 (Zenodo DOI: 10.5281/zenodo.7812257)
+# 2. Скачать датасет DENTEX 2023 (Zenodo record 7812323, ~10.9 GB)
 python scripts/download_dentex.py
 
 # 3. Предобработка: CLAHE + resize до 1024×512 + генерация масок зубов
 python scripts/preprocess.py
+# → 1571 снимок в data/processed/
 
-# 4. Разметить маски кости и кортикальной пластинки в LabelMe (~200 снимков)
-#    Экспортировать COCO JSON и смержить в data/processed/masks/
-
-# 5. Создать сплиты (70/15/15, группировка по пациенту)
+# 4. Создать сплиты (70/15/15)
 python scripts/create_splits.py
+# → train=1101, val=235, test=235
 
-# 6. Проверить что всё работает (2 батча)
+# 5. Проверить пайплайн (2 батча)
 python scripts/train.py --config configs/unet.yaml --fast_dev_run
 
-# 7. Обучить все модели (по очереди)
+# 6. Обучить модели
 python scripts/train.py --config configs/unet.yaml
 python scripts/train.py --config configs/unetpp.yaml
 python scripts/train.py --config configs/segformer.yaml
-python scripts/train.py --config configs/swin_unet.yaml
 python scripts/train.py --config configs/deeplabv3plus.yaml
-# YOLOv8-seg обучается отдельно через Ultralytics CLI
+python scripts/train.py --config configs/swin_unet.yaml
 
-# 8. Смотреть метрики
+# Возобновить обучение с чекпоинта:
+python scripts/train.py --config configs/swin_unet.yaml --resume checkpoints/<name>.ckpt
+
+# 7. Оценить на тесте
+python scripts/evaluate.py --config configs/unet.yaml --checkpoint checkpoints/<name>.ckpt
+
+# 8. Смотреть метрики в MLflow
 mlflow ui --port 5000
 
-# 9. Сравнить архитектуры
-python scripts/evaluate.py --config configs/unet.yaml --checkpoint checkpoints/best.ckpt
-python scripts/compare_models.py   # → reports/figures/
-
-# 10. Запустить приложение
-python scripts/export_onnx.py --config configs/unet.yaml --checkpoint checkpoints/best.ckpt
+# 9. Запустить приложение
+python scripts/export_onnx.py --config configs/swin_unet.yaml --checkpoint checkpoints/<name>.ckpt
 python app/app.py   # → http://localhost:7860
 ```
 
 ---
 
-## Метрики сравнения
+## Метрики сравнения (тестовая выборка, 235 снимков)
 
-| Модель | mIoU | Dice_tooth | Dice_bone | Dice_cortical | AUROC (macro) | F1 (macro) | FPS |
-|--------|------|-----------|-----------|--------------|--------------|-----------|-----|
-| U-Net | — | — | — | — | — | — | — |
-| U-Net++ | — | — | — | — | — | — | — |
-| Swin-UNet | — | — | — | — | — | — | — |
-| SegFormer | — | — | — | — | — | — | — |
-| YOLOv8-seg | — | — | — | — | — | — | — |
-| DeepLabV3+ | — | — | — | — | — | — | — |
+| Модель | mIoU | IoU_bg | Dice_tooth | Dice_bone | Dice_cortical | FPS |
+|--------|------|--------|-----------|-----------|--------------|-----|
+| U-Net | 0.588 | 0.853 | 0.369 | — | — | 51.6 |
+| U-Net++ | 0.609 | 0.865 | 0.403 | — | — | 23.8 |
+| SegFormer | 0.589 | 0.863 | 0.357 | — | — | 23.2 |
+| DeepLabV3+ | 0.623 | 0.865 | 0.426 | — | — | 41.2 |
+| **Swin-UNet** | **0.638** | 0.864 | **0.462** | — | — | 21.1 |
 
-*Таблица заполняется после обучения.*
+> «—» — разметка bone/cortical в процессе (~100 снимков аннотировано, обучение предстоит)
 
 ---
 
 ## Датасеты
 
-- **[DENTEX 2023](https://zenodo.org/record/7812257)** (MICCAI Challenge) — ~3000 ОПТГ с COCO-разметкой зубов
-- **[Tufts Dental Database](https://tdd.ece.tufts.edu/)** — ~1000 снимков с поэлементными метками
+- **[DENTEX 2023](https://zenodo.org/records/7812323)** (MICCAI Challenge) — 1571 уникальных ОПТГ с COCO-разметкой зубов по квадрантам
 
-Маски альвеолярной кости и кортикальной пластинки отсутствуют в публичных датасетах — требуется ручная разметка ~200 снимков (LabelMe/CVAT) с использованием SAM для предварительной сегментации.
+Маски альвеолярной кости и кортикальной пластинки в публичных датасетах отсутствуют. Выполняется ручная разметка в LabelMe: ~100 снимков аннотировано (класс `bone`), аннотации хранятся в `data/annotations/`.
 
 ---
 
