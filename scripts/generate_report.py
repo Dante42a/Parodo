@@ -28,6 +28,11 @@ from pathlib import Path
 from datetime import date
 
 try:
+    import pandas as pd
+except ImportError:
+    pd = None
+
+try:
     from docx import Document
     from docx.shared import Pt, Cm, RGBColor
     from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
@@ -797,23 +802,56 @@ def build_section3(doc, github_url):
         'пародонтита и пародонтоза.'
     ))
     tbl_cap(doc, 2, 'Сводные метрики сегментации на тестовой выборке')
+
+    MODEL_LABELS = {
+        'unet': 'U-Net',
+        'unetpp': 'U-Net++',
+        'swin_unet': 'Swin-UNet',
+        'segformer': 'SegFormer',
+        'yolov8_seg': 'YOLOv8-seg',
+        'deeplabv3plus': 'DeepLabV3+',
+    }
+    ORDER = ['unet', 'unetpp', 'swin_unet', 'segformer', 'yolov8_seg', 'deeplabv3plus']
+
+    def fmt(val, decimals=4):
+        try:
+            f = float(val)
+            return '—' if (f != f) else f'{f:.{decimals}f}'   # NaN check
+        except Exception:
+            return '—'
+
+    csv_path = Path('reports/results/metrics_summary.csv')
+    metrics = {}
+    if pd is not None and csv_path.exists():
+        df = pd.read_csv(csv_path)
+        for _, row in df.iterrows():
+            metrics[row['model']] = row
+
+    rows_data = []
+    for key in ORDER:
+        label = MODEL_LABELS[key]
+        if key in metrics:
+            r = metrics[key]
+            rows_data.append([
+                label,
+                fmt(r.get('mIoU', float('nan'))),
+                fmt(r.get('Dice_tooth', float('nan'))),
+                fmt(r.get('Dice_bone', float('nan'))),
+                fmt(r.get('Dice_cortical', float('nan'))),
+                str(r.get('FPS', '—')),
+            ])
+        else:
+            rows_data.append([label, '—', '—', '—', '—', '—'])
+
     add_simple_table(doc,
         headers=['Модель', 'mIoU', 'Dice_tooth', 'Dice_bone', 'Dice_cortical', 'FPS'],
-        rows=[
-            ['U-Net', '—', '—', '—', '—', '—'],
-            ['U-Net++', '—', '—', '—', '—', '—'],
-            ['Swin-UNet', '—', '—', '—', '—', '—'],
-            ['SegFormer', '—', '—', '—', '—', '—'],
-            ['YOLOv8-seg', '—', '—', '—', '—', '—'],
-            ['DeepLabV3+', '—', '—', '—', '—', '—'],
-        ]
+        rows=rows_data,
     )
     p(doc, (
-        'Примечание: ячейки таблицы заполняются по результатам обучения и тестирования '
-        'моделей. Значение «—» означает, что обучение ещё не завершено. '
-        'Команда для запуска обучения и оценки: '
-        'python scripts/train.py --config configs/<model>.yaml; '
-        'python scripts/evaluate.py --config configs/<model>.yaml --checkpoint <path>.'
+        'Примечание: «—» в колонках Dice_bone и Dice_cortical означает отсутствие '
+        'разметки соответствующих классов на данном этапе работы. '
+        'Метрики будут обновлены после завершения ручной аннотации масок '
+        'альвеолярной кости и кортикальной пластинки в LabelMe.'
     ))
     doc.add_paragraph()
 
