@@ -90,7 +90,13 @@ def main():
 
     base_cfg = OmegaConf.load("configs/base.yaml")
     model_cfg = OmegaConf.load(args.config)
-    cfg = OmegaConf.merge(base_cfg, model_cfg)
+    defaults = OmegaConf.to_container(model_cfg, resolve=False).get("defaults", [])
+    if defaults:
+        parent_name = defaults[0].lstrip("- ").strip()
+        parent_cfg = OmegaConf.load(f"configs/{parent_name}.yaml")
+        cfg = OmegaConf.merge(base_cfg, parent_cfg, model_cfg)
+    else:
+        cfg = OmegaConf.merge(base_cfg, model_cfg)
 
     results = evaluate(cfg, args.checkpoint)
 
