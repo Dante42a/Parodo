@@ -32,10 +32,16 @@ def main():
     parser.add_argument("--resume", default=None)
     args = parser.parse_args()
 
-    # Load and merge configs
+    # Load and merge configs (supports single-level defaults inheritance)
     base_cfg = OmegaConf.load("configs/base.yaml")
     model_cfg = OmegaConf.load(args.config)
-    cfg = OmegaConf.merge(base_cfg, model_cfg)
+    defaults = OmegaConf.to_container(model_cfg, resolve=False).get("defaults", [])
+    if defaults:
+        parent_name = defaults[0].lstrip("- ").strip()
+        parent_cfg = OmegaConf.load(f"configs/{parent_name}.yaml")
+        cfg = OmegaConf.merge(base_cfg, parent_cfg, model_cfg)
+    else:
+        cfg = OmegaConf.merge(base_cfg, model_cfg)
 
     torch.set_float32_matmul_precision("high")
     seed_everything(cfg.seed)

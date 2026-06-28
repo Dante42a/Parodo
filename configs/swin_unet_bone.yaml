@@ -1,0 +1,10 @@
+defaults:
+  - swin_unet
+
+data:
+  split_dir: "data/splits/bone"  # contains train.txt / val.txt from annotated images only
+  num_workers: 0
+
+training:
+  max_epochs: 80
+  freeze_encoder_epochs: 3
