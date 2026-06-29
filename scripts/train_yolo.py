@@ -39,7 +39,9 @@ def main():
         workers=0,         # network drive — no multiprocess workers
         rect=False,
         cos_lr=True,
-        close_mosaic=10,
+        mosaic=0.0,        # disable mosaic — causes VRAM spikes on 12GB with 1024px
+        close_mosaic=0,
+        half=True,         # FP16 inference during val saves ~1GB
     )
     best = Path("checkpoints/yolov8/teeth/weights/best.pt")
     print(f"\nBest checkpoint: {best}")
