@@ -70,23 +70,36 @@ def measure_bone_loss(
         upper_jaw = tooth_center_y < img_h / 2
 
         bone_col = mask_bone[:, x1:x2 + 1]
-        bone_rows = np.where(bone_col.any(axis=1))[0]
 
         if upper_jaw:
             # Root goes upward: root_tip = y_min, crown = y_max
             root_tip_y = y1
             cej_y = y2 - int(cej_fraction * tooth_height)
             root_length = max(cej_y - root_tip_y, 1)
-            # Bone crest is the lowest (max y) bone edge near this tooth
-            bone_crest_y = int(bone_rows.max()) if len(bone_rows) else root_tip_y
+            # Look for bone crest only in the root zone [root_tip_y, cej_y]
+            # (bone above CEJ is irrelevant — crown is there, not root)
+            zone = bone_col[root_tip_y:cej_y + 1, :]
+            zone_rows = np.where(zone.any(axis=1))[0]
+            if len(zone_rows):
+                # bottommost bone edge in the zone = closest to CEJ
+                bone_crest_y = root_tip_y + int(zone_rows.max())
+            else:
+                bone_crest_y = root_tip_y  # no bone in root zone = max loss
             bone_loss_height = max(cej_y - bone_crest_y, 0)
         else:
             # Root goes downward: root_tip = y_max, crown = y_min
             root_tip_y = y2
             cej_y = y1 + int(cej_fraction * tooth_height)
             root_length = max(root_tip_y - cej_y, 1)
-            # Bone crest is the highest (min y) bone edge near this tooth
-            bone_crest_y = int(bone_rows.min()) if len(bone_rows) else root_tip_y
+            # Look for bone crest only in the root zone [cej_y, root_tip_y]
+            # (bone above CEJ is coronal — not relevant for bone loss)
+            zone = bone_col[cej_y:root_tip_y + 1, :]
+            zone_rows = np.where(zone.any(axis=1))[0]
+            if len(zone_rows):
+                # topmost bone edge in the zone = closest to CEJ
+                bone_crest_y = cej_y + int(zone_rows.min())
+            else:
+                bone_crest_y = root_tip_y  # no bone in root zone = max loss
             bone_loss_height = max(bone_crest_y - cej_y, 0)
 
         bone_loss_ratio = min(bone_loss_height / root_length, 1.0)
