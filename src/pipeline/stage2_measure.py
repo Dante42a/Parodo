@@ -26,6 +26,7 @@ CORTICAL_BAND_PX = 5
 @dataclass
 class ToothMeasurement:
     tooth_id: int
+    label: str              # FDI название зуба (например "16 - 1st Molar")
     bbox: tuple             # (y1, x1, y2, x2)
     root_length_px: int
     bone_loss_height_px: int
@@ -118,6 +119,7 @@ def measure_bone_loss(
 
         measurements.append(ToothMeasurement(
             tooth_id=inst.instance_id,
+            label=inst.label,
             bbox=inst.bbox,
             root_length_px=root_length,
             bone_loss_height_px=bone_loss_height,

@@ -39,6 +39,7 @@ class ToothInstance:
     mask: np.ndarray            # (H, W) bool
     bbox: tuple                 # (y1, x1, y2, x2) pixels
     confidence: float
+    label: str = "tooth"        # FDI название зуба если известно
 
 
 @torch.no_grad()
@@ -91,13 +92,14 @@ def run_tooth_instances(
     if boxes is None or len(boxes) == 0:
         return instances
 
-    confs = boxes.conf.cpu().numpy()
-    # Координаты в пикселях исходного изображения (YOLO их масштабирует сам)
+    confs    = boxes.conf.cpu().numpy()
+    cls_ids  = boxes.cls.cpu().numpy().astype(int)
+    cls_names = result.names  # dict {id: name}
     xyxy = boxes.xyxy.cpu().numpy()   # (N, 4): x1 y1 x2 y2
 
     is_seg = result.masks is not None
 
-    for i, (box, conf) in enumerate(zip(xyxy, confs)):
+    for i, (box, conf, cls_id) in enumerate(zip(xyxy, confs, cls_ids)):
         bx1, by1, bx2, by2 = box
         # Масштабируем координаты к target_hw
         scale_x = W / result.orig_shape[1]
@@ -130,6 +132,7 @@ def run_tooth_instances(
             mask=bool_mask,
             bbox=(int(rows.min()), int(cols.min()), int(rows.max()), int(cols.max())),
             confidence=float(conf),
+            label=cls_names.get(cls_id, "tooth"),
         ))
 
     # Фильтр ложных позитивов

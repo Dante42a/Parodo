@@ -24,6 +24,7 @@ data/processed/
 data/augmented/
 data/yolo_teeth/
 data/yolo_teeth_det/
+data/yolo_akudental/
 
 # Model checkpoints (too large)
 checkpoints/
@@ -54,6 +55,11 @@ logs/
 tb_logs/
 lightning_logs/
 runs/
+
+# Временные превью
+*_preview.jpg
+*_preview.png
+*_preview.gif
 
 # HuggingFace cache
 .cache/
