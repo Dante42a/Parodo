@@ -18,7 +18,7 @@ DATA_YAML = str(Path("data/yolo_teeth/data.yaml").resolve())
 BASE_MODEL = "yolov8m-seg.pt"   # COCO-pretrained, ~52 MB
 EPOCHS = 60
 IMGSZ = 1024
-BATCH = 4
+BATCH = 2
 DEVICE = 0
 
 
