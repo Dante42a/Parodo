@@ -46,7 +46,18 @@ def measure_bone_loss(
     """
     instances: per-tooth instance masks from YOLO or fallback_tooth_instances().
     mask_bone, mask_cortical: (H, W) bool arrays from Swin-UNet.
+
+    Jaw direction:
+      Upper jaw (tooth center Y < H/2): crown at bottom, root tip at top (y_min).
+        - CEJ at y2 - cej_fraction * height
+        - bone crest = bottommost bone row in x-range (max y)
+        - bone_loss = max(cej_y - bone_crest_y, 0) / root_length
+      Lower jaw (tooth center Y >= H/2): crown at top, root tip at bottom (y_max).
+        - CEJ at y1 + cej_fraction * height
+        - bone crest = topmost bone row in x-range (min y)
+        - bone_loss = max(bone_crest_y - cej_y, 0) / root_length
     """
+    img_h = mask_bone.shape[0]
     measurements = []
 
     for inst in instances:
@@ -55,19 +66,32 @@ def measure_bone_loss(
         if tooth_height < 5:
             continue
 
-        cej_y = y1 + int(cej_fraction * tooth_height)
-        root_tip_y = y2
-        root_length = max(root_tip_y - cej_y, 1)
+        tooth_center_y = (y1 + y2) / 2
+        upper_jaw = tooth_center_y < img_h / 2
 
-        # Bone crest: topmost y in mask_bone within this tooth's x-range
         bone_col = mask_bone[:, x1:x2 + 1]
         bone_rows = np.where(bone_col.any(axis=1))[0]
-        bone_crest_y = int(bone_rows.min()) if len(bone_rows) else root_tip_y
 
-        bone_loss_height = max(bone_crest_y - cej_y, 0)
+        if upper_jaw:
+            # Root goes upward: root_tip = y_min, crown = y_max
+            root_tip_y = y1
+            cej_y = y2 - int(cej_fraction * tooth_height)
+            root_length = max(cej_y - root_tip_y, 1)
+            # Bone crest is the lowest (max y) bone edge near this tooth
+            bone_crest_y = int(bone_rows.max()) if len(bone_rows) else root_tip_y
+            bone_loss_height = max(cej_y - bone_crest_y, 0)
+        else:
+            # Root goes downward: root_tip = y_max, crown = y_min
+            root_tip_y = y2
+            cej_y = y1 + int(cej_fraction * tooth_height)
+            root_length = max(root_tip_y - cej_y, 1)
+            # Bone crest is the highest (min y) bone edge near this tooth
+            bone_crest_y = int(bone_rows.min()) if len(bone_rows) else root_tip_y
+            bone_loss_height = max(bone_crest_y - cej_y, 0)
+
         bone_loss_ratio = min(bone_loss_height / root_length, 1.0)
 
-        # Cortical coverage within tooth's x-range near bone crest
+        # Cortical coverage near bone crest
         tooth_width = max(x2 - x1 + 1, 1)
         cort_cols = 0
         for col in range(x1, x2 + 1):
