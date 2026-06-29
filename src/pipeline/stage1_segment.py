@@ -66,7 +66,7 @@ def run_tooth_instances(
     yolo_model,
     image_np: np.ndarray,           # (H, W, 3) uint8 RGB at target resolution
     target_hw: tuple = (512, 1024),
-    conf_thresh: float = 0.25,
+    conf_thresh: float = 0.10,
 ) -> List[ToothInstance]:
     """Run YOLOv8-seg and return per-tooth instance masks at target_hw resolution."""
     H, W = target_hw
