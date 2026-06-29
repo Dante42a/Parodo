@@ -45,7 +45,26 @@ SEVERITY_COLORS = {
 
 
 def load_pipeline(model_path: str, yolo_path: str = None) -> PeriodontalPipeline:
-    cfg = OmegaConf.load("configs/base.yaml")
+    base_cfg = OmegaConf.load("configs/base.yaml")
+
+    # Определяем конфиг модели по имени чекпойнта (например "swin_unet-epoch=10...")
+    import os
+    cfg_names = [f[:-5] for f in os.listdir("configs") if f.endswith(".yaml") and f != "base.yaml"]
+    stem_norm = Path(model_path).stem.replace("-", "_")
+    best = max((n for n in cfg_names if stem_norm.startswith(n)), key=len, default="")
+
+    if best and Path(f"configs/{best}.yaml").exists():
+        model_cfg = OmegaConf.load(f"configs/{best}.yaml")
+        defaults = OmegaConf.to_container(model_cfg, resolve=False).get("defaults", [])
+        if defaults:
+            parent_name = defaults[0].lstrip("- ").strip()
+            parent_cfg = OmegaConf.load(f"configs/{parent_name}.yaml")
+            cfg = OmegaConf.merge(base_cfg, parent_cfg, model_cfg)
+        else:
+            cfg = OmegaConf.merge(base_cfg, model_cfg)
+    else:
+        cfg = base_cfg
+
     return PeriodontalPipeline(model_path, cfg=cfg, yolo_path=yolo_path)
 
 
