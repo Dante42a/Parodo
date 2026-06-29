@@ -105,12 +105,30 @@ def run_tooth_instances(
             confidence=float(conf),
         ))
 
-    # Sort left-to-right, re-number
-    instances.sort(key=lambda t: t.bbox[1])
-    for idx, inst in enumerate(instances):
+    # Фильтр ложных позитивов: убираем детекции за пределами зубного ряда
+    H_img, W_img = target_hw
+    filtered = []
+    for inst in instances:
+        y1, x1, y2, x2 = inst.bbox
+        h_bbox = y2 - y1
+        w_bbox = x2 - x1
+        cx = (x1 + x2) / 2
+        # Зуб должен быть в центральной зоне по ширине (5–95%)
+        if cx < W_img * 0.05 or cx > W_img * 0.95:
+            continue
+        # Высота зуба: минимум 40px, максимум 60% высоты снимка
+        if h_bbox < 40 or h_bbox > H_img * 0.6:
+            continue
+        # Ширина не должна превышать высоту в 2 раза (не блоб)
+        if w_bbox > h_bbox * 2.0:
+            continue
+        filtered.append(inst)
+
+    filtered.sort(key=lambda t: t.bbox[1])
+    for idx, inst in enumerate(filtered):
         inst.instance_id = idx + 1
 
-    return instances
+    return filtered
 
 
 def fallback_tooth_instances(mask_tooth: np.ndarray) -> List[ToothInstance]:

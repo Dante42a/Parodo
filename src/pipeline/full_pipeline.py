@@ -144,6 +144,6 @@ class PeriodontalPipeline:
 
         diagnosis = classify_image(measurements, self.cfg)
 
-        overlay = overlay_masks(display_img, seg.mask_full, measurements)
+        overlay = overlay_masks(display_img, seg.mask_full, measurements, instances=instances)
 
         return PipelineResult(segmentation=seg, diagnosis=diagnosis, overlay=overlay)

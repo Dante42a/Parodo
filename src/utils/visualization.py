@@ -22,21 +22,34 @@ def overlay_masks(
     image: np.ndarray,
     mask: np.ndarray,
     measurements=None,
+    instances=None,
     alpha: float = ALPHA,
 ) -> np.ndarray:
     """
     image:    (H, W, 3) uint8 RGB
-    mask:     (H, W) int with class indices 0-3
-    measurements: optional list of ToothMeasurement to draw bone loss lines
+    mask:     (H, W) int с индексами классов 0-3 (от Swin-UNet)
+    instances: список ToothInstance от YOLO — если передан, зубы рендерятся по ним
+               (более точно, чем семантический блоб Swin-UNet)
+    measurements: список ToothMeasurement для отрисовки линий потери кости
     """
     if image.ndim == 2:
         image = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
 
     overlay = image.copy()
+
+    # Bone и cortical всегда из Swin-UNet семантики
     for cls, color in CLASS_COLORS.items():
-        if cls == 0:
+        if cls in (0, 1):
             continue
         overlay[mask == cls] = color
+
+    # Зубы: YOLO-инстансы если есть, иначе семантическая маска
+    if instances:
+        tooth_color = CLASS_COLORS[1]
+        for inst in instances:
+            overlay[inst.mask] = tooth_color
+    else:
+        overlay[mask == 1] = CLASS_COLORS[1]
 
     result = cv2.addWeighted(overlay, alpha, image, 1 - alpha, 0)
 
