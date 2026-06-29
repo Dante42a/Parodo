@@ -37,19 +37,11 @@ def overlay_masks(
 
     overlay = image.copy()
 
-    # Bone и cortical всегда из Swin-UNet семантики
+    # Все классы (зубы, кость, кортикальная) из Swin-UNet семантики
     for cls, color in CLASS_COLORS.items():
-        if cls in (0, 1):
+        if cls == 0:
             continue
         overlay[mask == cls] = color
-
-    # Зубы: YOLO-инстансы если есть, иначе семантическая маска
-    if instances:
-        tooth_color = CLASS_COLORS[1]
-        for inst in instances:
-            overlay[inst.mask] = tooth_color
-    else:
-        overlay[mask == 1] = CLASS_COLORS[1]
 
     result = cv2.addWeighted(overlay, alpha, image, 1 - alpha, 0)
 
