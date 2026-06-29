@@ -48,14 +48,11 @@ class ImageDiagnosis:
 
 
 def classify_tooth(m: ToothMeasurement, cfg_stage2) -> ToothDiagnosis:
-    cortical_present = m.cortical_coverage >= cfg_stage2.cortical_min_coverage
-
-    if not cortical_present:
-        condition = "Periodontitis"
-    elif m.bone_loss_ratio < cfg_stage2.normal_threshold:
+    # кортикальная пластинка не размечена — классификация только по убыли кости
+    if m.bone_loss_ratio < cfg_stage2.normal_threshold:
         condition = "Normal"
     else:
-        condition = "Periodontosis"
+        condition = "Periodontitis"
 
     if condition == "Normal":
         severity = None
