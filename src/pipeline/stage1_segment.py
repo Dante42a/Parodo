@@ -64,13 +64,20 @@ def run_segmentation(
 
 def run_tooth_instances(
     yolo_model,
-    image_np: np.ndarray,           # (H, W, 3) uint8 RGB at target resolution
+    image_np: np.ndarray,           # (H, W, 3) uint8 RGB
     target_hw: tuple = (512, 1024),
-    conf_thresh: float = 0.05,
+    conf_thresh: float = 0.25,
     iou_thresh: float = 0.30,
     max_det: int = 40,
+    mask_tooth: Optional[np.ndarray] = None,  # Swin-UNet tooth mask для det-режима
 ) -> List[ToothInstance]:
-    """Run YOLOv8-seg and return per-tooth instance masks at target_hw resolution."""
+    """
+    Запускает YOLO и возвращает per-tooth инстансы.
+
+    Два режима:
+    - seg-модель (yolov8*-seg.pt): маски берутся из result.masks
+    - det-модель (yolov8*.pt):     маски = bbox ∩ mask_tooth (Swin-UNet)
+    """
     H, W = target_hw
     results = yolo_model.predict(
         image_np, imgsz=W,
@@ -80,24 +87,44 @@ def run_tooth_instances(
     result = results[0]
 
     instances: List[ToothInstance] = []
-    if result.masks is None:
+    boxes = result.boxes
+    if boxes is None or len(boxes) == 0:
         return instances
 
-    masks_raw = result.masks.data.cpu().numpy()   # (N, H_m, W_m)
-    confs = result.boxes.conf.cpu().numpy()
+    confs = boxes.conf.cpu().numpy()
+    # Координаты в пикселях исходного изображения (YOLO их масштабирует сам)
+    xyxy = boxes.xyxy.cpu().numpy()   # (N, 4): x1 y1 x2 y2
 
-    for i, (mask_raw, conf) in enumerate(zip(masks_raw, confs)):
-        if mask_raw.shape != (H, W):
-            mask_resized = cv2.resize(
-                mask_raw.astype(np.float32), (W, H), interpolation=cv2.INTER_NEAREST
-            )
+    is_seg = result.masks is not None
+
+    for i, (box, conf) in enumerate(zip(xyxy, confs)):
+        bx1, by1, bx2, by2 = box
+        # Масштабируем координаты к target_hw
+        scale_x = W / result.orig_shape[1]
+        scale_y = H / result.orig_shape[0]
+        x1 = int(np.clip(bx1 * scale_x, 0, W - 1))
+        y1 = int(np.clip(by1 * scale_y, 0, H - 1))
+        x2 = int(np.clip(bx2 * scale_x, 0, W - 1))
+        y2 = int(np.clip(by2 * scale_y, 0, H - 1))
+
+        if is_seg:
+            mask_raw = result.masks.data[i].cpu().numpy()
+            if mask_raw.shape != (H, W):
+                mask_raw = cv2.resize(
+                    mask_raw.astype(np.float32), (W, H), interpolation=cv2.INTER_NEAREST
+                )
+            bool_mask = mask_raw > 0.5
         else:
-            mask_resized = mask_raw
-        bool_mask = mask_resized > 0.5
+            # Det-режим: маска = прямоугольник бокса ∩ Swin-UNet mask_tooth
+            bool_mask = np.zeros((H, W), dtype=bool)
+            bool_mask[y1:y2 + 1, x1:x2 + 1] = True
+            if mask_tooth is not None:
+                bool_mask &= mask_tooth
 
         rows, cols = np.where(bool_mask)
-        if len(rows) == 0:
+        if len(rows) < 10:
             continue
+
         instances.append(ToothInstance(
             instance_id=i + 1,
             mask=bool_mask,
@@ -105,22 +132,18 @@ def run_tooth_instances(
             confidence=float(conf),
         ))
 
-    # Фильтр ложных позитивов: убираем детекции за пределами зубного ряда
-    H_img, W_img = target_hw
+    # Фильтр ложных позитивов
     filtered = []
     for inst in instances:
         y1, x1, y2, x2 = inst.bbox
         h_bbox = y2 - y1
         w_bbox = x2 - x1
         cx = (x1 + x2) / 2
-        # Зуб должен быть в центральной зоне по ширине (5–95%)
-        if cx < W_img * 0.05 or cx > W_img * 0.95:
+        if cx < W * 0.04 or cx > W * 0.96:
             continue
-        # Высота зуба: минимум 40px, максимум 60% высоты снимка
-        if h_bbox < 40 or h_bbox > H_img * 0.6:
+        if h_bbox < 30 or h_bbox > H * 0.65:
             continue
-        # Ширина не должна превышать высоту в 2 раза (не блоб)
-        if w_bbox > h_bbox * 2.0:
+        if w_bbox > h_bbox * 2.2:
             continue
         filtered.append(inst)
 

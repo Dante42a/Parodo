@@ -23,6 +23,7 @@ data/raw/
 data/processed/
 data/augmented/
 data/yolo_teeth/
+data/yolo_teeth_det/
 
 # Model checkpoints (too large)
 checkpoints/
@@ -40,6 +41,9 @@ mlflow.db
 # Reports (generated, not source)
 reports/results/
 reports/figures/
+
+# Временные файлы
+annotation_preview.png
 
 # Generated report
 *.docx

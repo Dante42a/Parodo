@@ -130,6 +130,7 @@ class PeriodontalPipeline:
                 self.yolo_model,
                 display_img,
                 target_hw=(H, W),
+                mask_tooth=seg.mask_tooth,
             )
         else:
             instances = fallback_tooth_instances(seg.mask_tooth)
