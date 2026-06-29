@@ -66,7 +66,7 @@ def run_tooth_instances(
     yolo_model,
     image_np: np.ndarray,           # (H, W, 3) uint8 RGB
     target_hw: tuple = (512, 1024),
-    conf_thresh: float = 0.25,
+    conf_thresh: float = 0.03,
     iou_thresh: float = 0.30,
     max_det: int = 40,
     mask_tooth: Optional[np.ndarray] = None,  # Swin-UNet tooth mask для det-режима
