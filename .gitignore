@@ -49,6 +49,7 @@ logs/
 *.log
 tb_logs/
 lightning_logs/
+runs/
 
 # HuggingFace cache
 .cache/
