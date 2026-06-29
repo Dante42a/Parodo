@@ -72,35 +72,37 @@ def measure_bone_loss(
         bone_col = mask_bone[:, x1:x2 + 1]
 
         if upper_jaw:
-            # Root goes upward: root_tip = y_min, crown = y_max
+            # Корень идёт вверх: root_tip = y_min, коронка = y_max
             root_tip_y = y1
             cej_y = y2 - int(cej_fraction * tooth_height)
             root_length = max(cej_y - root_tip_y, 1)
-            # Look for bone crest only in the root zone [root_tip_y, cej_y]
-            # (bone above CEJ is irrelevant — crown is there, not root)
+            # Гребень кости — нижний край (max y) кости в зоне корня [root_tip, cej]
             zone = bone_col[root_tip_y:cej_y + 1, :]
             zone_rows = np.where(zone.any(axis=1))[0]
             if len(zone_rows):
-                # bottommost bone edge in the zone = closest to CEJ
                 bone_crest_y = root_tip_y + int(zone_rows.max())
+                bone_loss_height = max(cej_y - bone_crest_y, 0)
             else:
-                bone_crest_y = root_tip_y  # no bone in root zone = max loss
-            bone_loss_height = max(cej_y - bone_crest_y, 0)
+                # Кость в зоне корня не найдена — модель не детектит верхнечелюстную кость
+                # Консервативно: 0% потери (не показываем 100% ошибочно)
+                bone_crest_y = cej_y
+                bone_loss_height = 0
         else:
-            # Root goes downward: root_tip = y_max, crown = y_min
+            # Корень идёт вниз: root_tip = y_max, коронка = y_min
             root_tip_y = y2
             cej_y = y1 + int(cej_fraction * tooth_height)
             root_length = max(root_tip_y - cej_y, 1)
-            # Look for bone crest only in the root zone [cej_y, root_tip_y]
-            # (bone above CEJ is coronal — not relevant for bone loss)
+            # Гребень кости — верхний край (min y) кости в зоне корня [cej, root_tip]
+            # Ищем только ниже CEJ, чтобы верхнечелюстная кость не давала ложный 0%
             zone = bone_col[cej_y:root_tip_y + 1, :]
             zone_rows = np.where(zone.any(axis=1))[0]
             if len(zone_rows):
-                # topmost bone edge in the zone = closest to CEJ
                 bone_crest_y = cej_y + int(zone_rows.min())
+                bone_loss_height = max(bone_crest_y - cej_y, 0)
             else:
-                bone_crest_y = root_tip_y  # no bone in root zone = max loss
-            bone_loss_height = max(bone_crest_y - cej_y, 0)
+                # Кость ниже CEJ не найдена — консервативно 0%
+                bone_crest_y = cej_y
+                bone_loss_height = 0
 
         bone_loss_ratio = min(bone_loss_height / root_length, 1.0)
 
