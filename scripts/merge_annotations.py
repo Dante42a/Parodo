@@ -14,7 +14,6 @@ Usage:
 """
 
 import json
-import random
 from pathlib import Path
 
 import cv2
@@ -22,10 +21,10 @@ import numpy as np
 
 ANN_DIR   = Path("data/annotations")
 MASK_DIR  = Path("data/processed/masks")
-SPLIT_DIR = Path("data/splits")
-LABEL_MAP = {"bone": 2}  # cortical (3) будет добавлен после завершения его разметки
-VAL_RATIO = 0.15
-SEED      = 42
+LABEL_MAP = {"bone": 2, "cortical": 3}
+# порядок отрисовки: bone (2) первым, cortical (3) поверх — тонкая кортикальная
+# линия не должна перекрываться костью
+DRAW_ORDER = ["bone", "cortical"]
 
 
 def rasterize_polygon(mask: np.ndarray, points: list, value: int) -> None:
@@ -47,11 +46,12 @@ def merge_one(json_path: Path) -> str:
         print(f"  [skip] could not read mask: {mask_path}")
         return None
 
-    for shape in data.get("shapes", []):
-        label = shape.get("label", "").lower()
-        if label not in LABEL_MAP:
-            continue
-        rasterize_polygon(mask, shape["points"], LABEL_MAP[label])
+    # рисуем строго в порядке DRAW_ORDER: сперва bone, затем cortical поверх
+    for target in DRAW_ORDER:
+        for shape in data.get("shapes", []):
+            if shape.get("label", "").lower() != target:
+                continue
+            rasterize_polygon(mask, shape["points"], LABEL_MAP[target])
 
     cv2.imwrite(str(mask_path), mask)
     return stem
@@ -68,23 +68,8 @@ def main():
             annotated.append(stem)
 
     print(f"Merged {len(annotated)} masks")
-
-    # Create bone splits from annotated images only
-    random.seed(SEED)
-    random.shuffle(annotated)
-    n_val = max(1, int(len(annotated) * VAL_RATIO))
-    val   = sorted(annotated[:n_val])
-    train = sorted(annotated[n_val:])
-
-    bone_split_dir = SPLIT_DIR / "bone"
-    bone_split_dir.mkdir(parents=True, exist_ok=True)
-    (bone_split_dir / "train.txt").write_text("\n".join(train))
-    (bone_split_dir / "val.txt").write_text("\n".join(val))
-    # test = val for now (no held-out annotated test set)
-    (bone_split_dir / "test.txt").write_text("\n".join(val))
-
-    print(f"Splits: train={len(train)}, val={len(val)} → data/splits/bone/")
-    print(f"Run training with: python scripts/train.py --config configs/swin_unet_bone.yaml")
+    # сплиты генерирует отдельный скрипт (стратификация по cortical, 3-way без утечек):
+    print("Далее: python scripts/create_bone_splits.py")
 
 
 if __name__ == "__main__":
