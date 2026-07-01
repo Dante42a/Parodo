@@ -14,4 +14,7 @@ training:
   decoder_lr: 5.0e-4
   batch_size: 4
 
+data:
+  split_dir: "data/splits/bone"  # только bone-размеченные снимки (train/val/test)
+
 # expected VRAM: ~6 GB at batch=4; reduce to batch=2 if OOM

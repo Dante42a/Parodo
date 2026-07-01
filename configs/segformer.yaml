@@ -14,4 +14,7 @@ training:
   grad_accum_steps: 2   # effective batch = 4
   amp: true
 
+data:
+  split_dir: "data/splits/bone"  # только bone-размеченные снимки (train/val/test)
+
 # expected VRAM: ~6.5 GB at batch=2
