@@ -155,7 +155,7 @@ mlflow ui --port 5000
 
 # 10. Запустить приложение
 python app/app.py \
-  --model checkpoints/swin_unet-epoch=10-val_mIoU=0.7739.ckpt \
+  --model checkpoints/segformer-epoch=13-val_mIoU=0.6103.ckpt \
   --yolo  checkpoints/yolov8/teeth_akudental/weights/best.pt
 # → http://localhost:7860
 ```
