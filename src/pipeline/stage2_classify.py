@@ -1,7 +1,13 @@
 """
 Stage 2 – rule-based classification from per-tooth measurements.
 
-Conditions:
+Текущая реализация — классификация только по убыли кости:
+  Normal           – bone_loss_ratio < normal_threshold
+  Periodontitis    – bone_loss_ratio >= normal_threshold
+
+Целевая (полная) логика с учётом кортикальной пластинки пока отключена:
+пластинка размечена лишь на 60 снимках и сегментируется ненадёжно (Dice ≤ 0,12),
+поэтому дифференциация пародонтита и пародонтоза по ней временно не выполняется.
   Normal           – cortical plate present, bone_loss_ratio < normal_threshold
   Periodontitis    – cortical plate absent  (regardless of bone loss ratio)
   Periodontosis    – cortical plate present, bone_loss_ratio >= normal_threshold
@@ -48,7 +54,8 @@ class ImageDiagnosis:
 
 
 def classify_tooth(m: ToothMeasurement, cfg_stage2) -> ToothDiagnosis:
-    # кортикальная пластинка не размечена — классификация только по убыли кости
+    # кортикальная пластинка размечена, но сегментируется ненадёжно (Dice ≤ 0,12) —
+    # пока классифицируем только по убыли кости; cortical-логика отключена
     if m.bone_loss_ratio < cfg_stage2.normal_threshold:
         condition = "Normal"
     else:
