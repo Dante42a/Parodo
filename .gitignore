@@ -76,3 +76,14 @@ Thumbs.db
 # Environment
 .env
 .env.local
+
+# Публикация: артефакты внутренней сети и бэкапы (не для публичного репо)
+192.168.*/
+*.bak
+*.orig
+*.tmp
+
+# Аннотации хранятся без встроенных изображений (imageData=null) — снимки не коммитим
+data/annotations/*.png
+data/annotations/*.jpg
+data/annotations/*.jpeg
