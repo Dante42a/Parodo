@@ -1,13 +1,19 @@
 # Python
 __pycache__/
 *.py[cod]
-*.pyo
 *.pyd
 .Python
 *.egg-info/
 dist/
 build/
 .eggs/
+
+# Tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
 
 # Virtual environments
 venv/
@@ -16,45 +22,41 @@ env/
 
 # Jupyter
 .ipynb_checkpoints/
-*.ipynb_checkpoints
 
-# Data (too large for git)
-data/raw/
-data/processed/
-data/augmented/
-data/yolo_teeth/
-data/yolo_teeth_det/
-data/yolo_akudental/
+# Data: в git только ручная разметка и сплиты, всё остальное (сырые снимки,
+# processed, YOLO-датасеты) — слишком большое и воспроизводится скриптами
+data/*
+!data/annotations/
+!data/splits/
 
-# Model checkpoints (too large)
+# Аннотации хранятся без встроенных изображений (imageData=null) — снимки не коммитим
+data/annotations/*.png
+data/annotations/*.jpg
+data/annotations/*.jpeg
+
+# Model weights / checkpoints (too large)
 checkpoints/
 *.ckpt
 *.pt
 *.pth
-app/models/*.onnx
+*.onnx
+*.safetensors
 
-# MLflow
+# Experiment tracking & logs
 mlruns/
 mlartifacts/
 mlflow.db
 *.db
-
-# Reports (generated, not source)
-reports/results/
-reports/figures/
-
-# Временные файлы
-annotation_preview.png
-
-# Generated report
-*.docx
-
-# Logs
 logs/
 *.log
 tb_logs/
 lightning_logs/
 runs/
+wandb/
+
+# Reports (generated, not source)
+reports/
+*.docx
 
 # Временные превью
 *_preview.jpg
@@ -67,23 +69,21 @@ runs/
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# IDE
+# IDE / AI assistants (локальные настройки)
 .vscode/
 .idea/
 *.swp
+.claude/
 
 # Environment
 .env
-.env.local
+.env.*
+!.env.example
 
-# Публикация: артефакты внутренней сети и бэкапы (не для публичного репо)
+# Артефакты сетевого монтирования (kio-fuse/SMB) и бэкапы
 192.168.*/
 *.bak
 *.orig
 *.tmp
-
-# Аннотации хранятся без встроенных изображений (imageData=null) — снимки не коммитим
-data/annotations/*.png
-data/annotations/*.jpg
-data/annotations/*.jpeg

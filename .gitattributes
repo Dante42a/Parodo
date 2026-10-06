@@ -1,0 +1,10 @@
+# Единые окончания строк (LF) в репозитории независимо от ОС
+* text=auto eol=lf
+
+# Бинарные файлы
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.docx binary
