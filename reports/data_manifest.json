@@ -1,0 +1,2084 @@
+{
+  "schema_version": 1,
+  "annotation_count": 251,
+  "valid_annotation_count": 251,
+  "invalid": [],
+  "embedded_image_count": 0,
+  "label_counts": {
+    "bone": 502,
+    "cortical": 107
+  },
+  "duplicate_image_names": [],
+  "patient_grouping_available": false,
+  "patient_grouping_note": "Patient identifiers are not present; patient-level leakage cannot be excluded.",
+  "records": [
+    {
+      "annotation": "train_0.json",
+      "image": "..\\processed\\images\\train_0.png",
+      "sha256": "71c8771a464b8de3571822cc5f519aadfdd308651f3576d25101820ce28119cf",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_1.json",
+      "image": "..\\processed\\images\\train_1.png",
+      "sha256": "dbdfab595b09e4429a2a0499d0ac0c870d010723f679a75f472077c72d721cc7",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_10.json",
+      "image": "..\\processed\\images\\train_10.png",
+      "sha256": "940389dcacd41ebea544c4440e5a5c9787b240bf87e0514e1e27cc1b178b7855",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_100.json",
+      "image": "..\\processed\\images\\train_100.png",
+      "sha256": "bde7984bb99ba8401cee065681a11af0b096a02e51b3fcf74057d0f652bd779a",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_101.json",
+      "image": "..\\processed\\images\\train_101.png",
+      "sha256": "0ff741b1e2db2f311ecf225ab4f6453151bc18e79f35fedbce004064548591ec",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_102.json",
+      "image": "..\\processed\\images\\train_102.png",
+      "sha256": "78668bb599b633efbe48feecc1c71775555edc490deb6b8803a0a298f6fe081c",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_103.json",
+      "image": "..\\processed\\images\\train_103.png",
+      "sha256": "6f9f552f39ca6e0dbe52f28f04406dad34114df14d9cfede7f94cf8ed84b0ad6",
+      "labels": {
+        "bone": 2,
+        "cortical": 1
+      }
+    },
+    {
+      "annotation": "train_104.json",
+      "image": "..\\processed\\images\\train_104.png",
+      "sha256": "58dd86a683d20b0b978cae5869c637782efc8400321ebae3bd6d2723e613ee54",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_105.json",
+      "image": "..\\processed\\images\\train_105.png",
+      "sha256": "e79e50991b2094d7f9bc6ce9b1447021692e6554d2f0c0894afd8ca86520a048",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_106.json",
+      "image": "..\\processed\\images\\train_106.png",
+      "sha256": "436aa920ba5677df5c415fc270640ab7f3b28b9a8716a7306e22e2764371afb6",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_107.json",
+      "image": "..\\processed\\images\\train_107.png",
+      "sha256": "1c2df6c3aa7e818e5b32a1d2f776b83c7d80d6200af562cd9e7ca3eaf6def11e",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_108.json",
+      "image": "..\\processed\\images\\train_108.png",
+      "sha256": "69b775afaaf5ac8ab22e14d83b681d3cd42a823f891234bbd614a02dc4f95fa4",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_109.json",
+      "image": "..\\processed\\images\\train_109.png",
+      "sha256": "d496aaae3eeafd6774e13af853af4021d738892e2ebf11a21d0b9fc90fd958dc",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_11.json",
+      "image": "..\\processed\\images\\train_11.png",
+      "sha256": "1e13108faa6463374b7795cd5c28b1507785802ce7be10a0fa676dd5af8b2522",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_110.json",
+      "image": "..\\processed\\images\\train_110.png",
+      "sha256": "e5a241a4ae1cabd5ccb9328742eb121f57c7c6f2429d15879f5c825798718ac3",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_111.json",
+      "image": "..\\processed\\images\\train_111.png",
+      "sha256": "a8fb4dba00171d0faebd520dc02f4b8426bd485f1a80fc7faf8c2f9876692dbd",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_112.json",
+      "image": "..\\processed\\images\\train_112.png",
+      "sha256": "a38c15bf5054fbec3f3cc7d5ae5d17b0ea741d9ea8d9fe7d48018911c60fe3bf",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_113.json",
+      "image": "..\\processed\\images\\train_113.png",
+      "sha256": "033b78b3ef98fcfe33d84d76b2040e113cbccf17ac2b72956c680927cc794ccb",
+      "labels": {
+        "bone": 2,
+        "cortical": 1
+      }
+    },
+    {
+      "annotation": "train_114.json",
+      "image": "..\\processed\\images\\train_114.png",
+      "sha256": "938a3febe44caca5bb5b0f90e9ef182b5a4f637429354790804804ec92d87177",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_115.json",
+      "image": "..\\processed\\images\\train_115.png",
+      "sha256": "efa809357e207cd7afa2c3a97b30e792be0bcaa7d203a2647ce78aa558cff680",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_116.json",
+      "image": "..\\processed\\images\\train_116.png",
+      "sha256": "72e22052a8a421298e1f222448a1fe7041924c5fd307ff2a547d8d58823a4582",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_117.json",
+      "image": "..\\processed\\images\\train_117.png",
+      "sha256": "4d1e268aa39c900fdfa3a8bb24d2131f46f4a1cadce24cce62330259d5319c80",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_118.json",
+      "image": "..\\processed\\images\\train_118.png",
+      "sha256": "5be16b7f025af4c55ba4de9fb750ee5e43806954eb0a4bc4117aa1aedf7c3f86",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_119.json",
+      "image": "..\\processed\\images\\train_119.png",
+      "sha256": "1e62b055bf85792c6c255e6177a0a9485c56e5ba4e3ce5342df4c4a9291ca168",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_12.json",
+      "image": "..\\processed\\images\\train_12.png",
+      "sha256": "efd6d2ab888db21e3869146043606b11d4c264e7cddaeff926e24cbe56ac3417",
+      "labels": {
+        "bone": 2,
+        "cortical": 1
+      }
+    },
+    {
+      "annotation": "train_120.json",
+      "image": "..\\processed\\images\\train_120.png",
+      "sha256": "a0652f2e3ea50f66419a1952ebc04fc5c1c4381073781804315a07f841e2d7cd",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_121.json",
+      "image": "..\\processed\\images\\train_121.png",
+      "sha256": "0a8cc3862b7f1455684aadfcd4bee7798b62cdbeba671e0edcf6f9b1688597e0",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_122.json",
+      "image": "..\\processed\\images\\train_122.png",
+      "sha256": "70b81352a4ff86c3e14578f74caadc316c169f5bc74a96f5a7ed29d5a40a31ad",
+      "labels": {
+        "bone": 2,
+        "cortical": 1
+      }
+    },
+    {
+      "annotation": "train_123.json",
+      "image": "..\\processed\\images\\train_123.png",
+      "sha256": "65472509b45e0e11da9933497f38ef768a16b926cb1f27e042cf4bc2366a2785",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_124.json",
+      "image": "..\\processed\\images\\train_124.png",
+      "sha256": "34b4001f115892108763d89ba1cb530736f939ca6648de5ec90680f43343ce9a",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_125.json",
+      "image": "..\\processed\\images\\train_125.png",
+      "sha256": "5948997a449e759494a7053d9bf5b9297f6e7aca26d5341ab8096a7a3e0043b6",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_126.json",
+      "image": "..\\processed\\images\\train_126.png",
+      "sha256": "e4b43165eb64f6d4cf28a30f0e8384fabcf8585eef41f0e60fb8b77de5a52eac",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_127.json",
+      "image": "..\\processed\\images\\train_127.png",
+      "sha256": "e501add765da3398c572951ab62080b2534d4bf3bbfaeb8cb64877d1efe23dfc",
+      "labels": {
+        "bone": 2,
+        "cortical": 1
+      }
+    },
+    {
+      "annotation": "train_128.json",
+      "image": "..\\processed\\images\\train_128.png",
+      "sha256": "803a9e42112cf0f80121f5239e3bdc602c5740516f81b5700db8fb3ada783997",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_129.json",
+      "image": "..\\processed\\images\\train_129.png",
+      "sha256": "90bc451f25927253e34d7eda041614bcf5d8eb9d240c69efd113d2cebe7bcefa",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_13.json",
+      "image": "..\\processed\\images\\train_13.png",
+      "sha256": "ddf627de855f3b0fef001482eb7089f7e1abcb665d71e6b9dfe0175182154fe7",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_130.json",
+      "image": "..\\processed\\images\\train_130.png",
+      "sha256": "1facc783a80906afa1c1897d534423a1f6b81162ac035c5297b97c11c5ad94ea",
+      "labels": {
+        "bone": 2,
+        "cortical": 3
+      }
+    },
+    {
+      "annotation": "train_131.json",
+      "image": "..\\processed\\images\\train_131.png",
+      "sha256": "9de817fd418aa0b749d4cb040e7c5c78f7aa1d0494149357ccade2a349e41b93",
+      "labels": {
+        "bone": 2,
+        "cortical": 3
+      }
+    },
+    {
+      "annotation": "train_132.json",
+      "image": "..\\processed\\images\\train_132.png",
+      "sha256": "6362fdfe69881f115ce891b1026a552864924e44321e56e7f24851ee0ab9e09b",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_133.json",
+      "image": "..\\processed\\images\\train_133.png",
+      "sha256": "53b9dad6a2c34e7dea9456768424e92ef3ebd39e30dcb3dd15b72ba32c44bb34",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_134.json",
+      "image": "..\\processed\\images\\train_134.png",
+      "sha256": "a53f451f97ae517f8872131d1d5bbd3cb64664094cb07fd63a33e8086b313504",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_135.json",
+      "image": "..\\processed\\images\\train_135.png",
+      "sha256": "4b3b172156a67730cb0d13c733096cfefba606df2057da014ad217ba2f3aac2a",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_136.json",
+      "image": "..\\processed\\images\\train_136.png",
+      "sha256": "36443b2c3ba45fda38e66512678ec7a363fc40a1f20baf3d7226728ac5260a39",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_137.json",
+      "image": "..\\processed\\images\\train_137.png",
+      "sha256": "d69924508536a554ff4c5dad57f897795b6db7514a2435591614c4e579f17e5e",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_138.json",
+      "image": "..\\processed\\images\\train_138.png",
+      "sha256": "80eb305a897cfdc954bfd5bf56545873b6d774f32c97b74a4b6106cf03fc0129",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_139.json",
+      "image": "..\\processed\\images\\train_139.png",
+      "sha256": "3d4d4123684c227a165bcdd424b9b731b8c114e3243c208aeda8fabddb303348",
+      "labels": {
+        "bone": 2,
+        "cortical": 1
+      }
+    },
+    {
+      "annotation": "train_14.json",
+      "image": "..\\processed\\images\\train_14.png",
+      "sha256": "50145765d4018d1977bc2ae71dc4d5ed61e575ad3dd8fd3d4b3175dbf839d68e",
+      "labels": {
+        "bone": 2,
+        "cortical": 1
+      }
+    },
+    {
+      "annotation": "train_140.json",
+      "image": "..\\processed\\images\\train_140.png",
+      "sha256": "c3c636798369e27a4ecd1654e193f0c0df886e686463ab24eb306db4068311d3",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_141.json",
+      "image": "..\\processed\\images\\train_141.png",
+      "sha256": "3d63a3a212aeb7f3ef32c4dc25942f2133a7443df492876052227fcde91a37ba",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_142.json",
+      "image": "..\\processed\\images\\train_142.png",
+      "sha256": "6412d2fa261c02ddf041462218ec39451d7bf13a9bd5de375b942bdfa65239a9",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_143.json",
+      "image": "..\\processed\\images\\train_143.png",
+      "sha256": "719b544fa57c1bb1c3f426c35e31f1123d819d133b937ecae00b42195f89fcfd",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_144.json",
+      "image": "..\\processed\\images\\train_144.png",
+      "sha256": "dbe9b45b422ed930f990599f27581a7029077cbc8ca695e27abcc386918d184d",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_145.json",
+      "image": "..\\processed\\images\\train_145.png",
+      "sha256": "73ab9113d88c82cb1361e11c6962e8bf5c4b887bf1cdcfed12f046c23ae59952",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_146.json",
+      "image": "..\\processed\\images\\train_146.png",
+      "sha256": "7a0d4836b469587c7cb6516d972ef09537e5f568605e85c44e84c7d979aaff33",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_147.json",
+      "image": "..\\processed\\images\\train_147.png",
+      "sha256": "897039525719c643a0c485b298a1be7c2f5bc358dd55b2a2908b672cc334fa0b",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_148.json",
+      "image": "..\\processed\\images\\train_148.png",
+      "sha256": "75bf8f34ae7f78f789fa338e2fc5708a58ce1182c9dac1524a4f27da0b289408",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_149.json",
+      "image": "..\\processed\\images\\train_149.png",
+      "sha256": "5cb0e156393bc43cdcb52588bae3607bdf701007fab93e3dc1cf80a6233d7bd6",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_15.json",
+      "image": "..\\processed\\images\\train_15.png",
+      "sha256": "ab1bcd7dca302d5e9e8676c13b1f2b5a7b2fb36ca9daf268ab082a04dce4950d",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_150.json",
+      "image": "..\\processed\\images\\train_150.png",
+      "sha256": "6330f71f66aeb5ab951105bd5f17f0b26f1351a3ea5d545e22204934e2d1bc2f",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_151.json",
+      "image": "..\\processed\\images\\train_151.png",
+      "sha256": "dbabab8c62dff3b54caa1131056d4b5bedc4280b4cb98fa27aedc9bcbeea76e9",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_152.json",
+      "image": "..\\processed\\images\\train_152.png",
+      "sha256": "f7d8a3946d74e1dce195d4ad7f9d36e019397555550b4b713292202b9af06c67",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_153.json",
+      "image": "..\\processed\\images\\train_153.png",
+      "sha256": "26392ca5866997974f4759741976583510a5908a4e8de061cef623d5ca36525e",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_154.json",
+      "image": "..\\processed\\images\\train_154.png",
+      "sha256": "fb62831973c0b6a2e2627d301021e2957d13ebbc7f37b9d570e3197cb6edd964",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_155.json",
+      "image": "..\\processed\\images\\train_155.png",
+      "sha256": "b872f6e4f24c71f9c8bdce99b6a77d20492986568bef18c9e4e741c48c1b935b",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_156.json",
+      "image": "..\\processed\\images\\train_156.png",
+      "sha256": "aac3cec4dde7ab0abb1d6fa4323b86a6962b8990fd89ac4f3d46e059758c5e62",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_157.json",
+      "image": "..\\processed\\images\\train_157.png",
+      "sha256": "dfe5ff731dfc0497213a0741a1404adf7038695ba9c6b38eb6dadc951bc8581e",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_158.json",
+      "image": "..\\processed\\images\\train_158.png",
+      "sha256": "211a6186c0d19fbf160789821fb25af1c3ed29c29d6f9502a14c439f99b02f27",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_159.json",
+      "image": "..\\processed\\images\\train_159.png",
+      "sha256": "f7661c9091b21990394ab43b2f5965c5bb3c324d03316bb83ee743de9c1aff87",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_16.json",
+      "image": "..\\processed\\images\\train_16.png",
+      "sha256": "010bbcc02ca588aa163a0e9a5edd163ec5962c28dce5f1bf49b15a36f42414b2",
+      "labels": {
+        "bone": 2,
+        "cortical": 1
+      }
+    },
+    {
+      "annotation": "train_160.json",
+      "image": "..\\processed\\images\\train_160.png",
+      "sha256": "8dc0bdea5582ab81a28c712d9124b33887c630c27375a0f516445428e65c91a6",
+      "labels": {
+        "bone": 2,
+        "cortical": 1
+      }
+    },
+    {
+      "annotation": "train_161.json",
+      "image": "..\\processed\\images\\train_161.png",
+      "sha256": "f61e793cf927d7e77d81756571b5ba8a5ad0879bb5a7020091ddcaaacd4fc37a",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_162.json",
+      "image": "..\\processed\\images\\train_162.png",
+      "sha256": "169b80c8dd495220c6d7b690d69adfedde6ec25e30f8ae8b9297ad62e41fa564",
+      "labels": {
+        "bone": 2,
+        "cortical": 1
+      }
+    },
+    {
+      "annotation": "train_163.json",
+      "image": "..\\processed\\images\\train_163.png",
+      "sha256": "3a538c149832eab6b475cb9c2b286277338c126ca0340798fa511c800d23959d",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_164.json",
+      "image": "..\\processed\\images\\train_164.png",
+      "sha256": "47f4d5615da3d3daec7745896a0db8d45a6d5d2b28582f0c27963423c589c67d",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_165.json",
+      "image": "..\\processed\\images\\train_165.png",
+      "sha256": "faf67b6f7bd7a57449f9d980a29822ac3fc2d02269e56c8ccd705445d4cbc8a6",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_166.json",
+      "image": "..\\processed\\images\\train_166.png",
+      "sha256": "46d206319290926be48df0a71ed4f4c30c599b78bccebdda0175cdd9107f3644",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_167.json",
+      "image": "..\\processed\\images\\train_167.png",
+      "sha256": "4adae4ba67e121ea0cb0901bd1ea9aa3f61d8de4087c1cecdeeb856901b9f17e",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_168.json",
+      "image": "..\\processed\\images\\train_168.png",
+      "sha256": "0719a891b89f99f493c4e64c2957cdd21ee5020035e7d7ce62c86db0683c652a",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_169.json",
+      "image": "..\\processed\\images\\train_169.png",
+      "sha256": "9e5cc4e551892a50b91c825a75d2abbea1633f33cd458b572bb3cf32b9df7ba3",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_17.json",
+      "image": "..\\processed\\images\\train_17.png",
+      "sha256": "ce461b52c3eb436ef1a01a5f3c9a98e6d190dcb151c4bd11aeb967f2cc5a61a2",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_170.json",
+      "image": "..\\processed\\images\\train_170.png",
+      "sha256": "2904e9c67bd32332d6630c4b79540885eb4b0e3cee2a48088a081d2714fc7d32",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_171.json",
+      "image": "..\\processed\\images\\train_171.png",
+      "sha256": "638be259b1bfb7914cde799622c9f86a2e06ab34382a0b8399f850b12fc19e52",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_172.json",
+      "image": "..\\processed\\images\\train_172.png",
+      "sha256": "e3284a164a3913362557499dc1061742454dd91025f6cf3eb87080d646523f3c",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_173.json",
+      "image": "..\\processed\\images\\train_173.png",
+      "sha256": "e8a098192a2466cc3f7b68d1c3ef874d3fc0bbe65faf7fd7a8ac354ee57b3f77",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_174.json",
+      "image": "..\\processed\\images\\train_174.png",
+      "sha256": "f63a4dddebb63e11ca567d005afbdd4a2557a91085f1f48e9c6ba9690abc826e",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_175.json",
+      "image": "..\\processed\\images\\train_175.png",
+      "sha256": "f28054493f95cb2edae7d498ab2b6ef18dddb37c2a746907f0ec7b6a0ebac5bd",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_176.json",
+      "image": "..\\processed\\images\\train_176.png",
+      "sha256": "be70046f1d8070957ca8b9e4db27e33b9d59f1bfad1e621fc2f272b5fc1e9cc2",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_177.json",
+      "image": "..\\processed\\images\\train_177.png",
+      "sha256": "84587a0d2a514f35e6b34ed9ca26bd1c9f57480830839dac4ce73155a0f76413",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_178.json",
+      "image": "..\\processed\\images\\train_178.png",
+      "sha256": "66bb6b8dcf74a39f18fd67d28481c32ad4c66608d1b273464adab592f7d6bea8",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_179.json",
+      "image": "..\\processed\\images\\train_179.png",
+      "sha256": "70001382e856969daadc8c1da0853cdedbea8b8b3be5602ef01d9923739b9b4c",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_18.json",
+      "image": "..\\processed\\images\\train_18.png",
+      "sha256": "0fe2c226da0b4c592bd41376bae2be854d1ad51004ccbbe0508f102fd7c5372c",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_180.json",
+      "image": "..\\processed\\images\\train_180.png",
+      "sha256": "f78dae34711e134c27c980efcbc0417bd57000e4b1e79f519ce156240197facc",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_181.json",
+      "image": "..\\processed\\images\\train_181.png",
+      "sha256": "97d12f60b803aee52d726c459eb01e7cd3996b2ac3d0b3b1748c6c09998dda99",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_182.json",
+      "image": "..\\processed\\images\\train_182.png",
+      "sha256": "e1f94d69f42d3b3d94094daef585d888bdffc4a00b922857d2077b64fb982f8b",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_183.json",
+      "image": "..\\processed\\images\\train_183.png",
+      "sha256": "c1ee458477606d755137852c3813c8fd1ba255062a42d1a4fb3967a00b54bbe0",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_184.json",
+      "image": "..\\processed\\images\\train_184.png",
+      "sha256": "50a6640b67790fe250b8623333ac0e510333faa7874e9a0ebb5970a69f003967",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_185.json",
+      "image": "..\\processed\\images\\train_185.png",
+      "sha256": "9b8c7efadf68c1ae64da32154fce44ec676bfb3c8d71686b2a098fa87c6f8730",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_186.json",
+      "image": "..\\processed\\images\\train_186.png",
+      "sha256": "d3aac8e5f4fc6746777e45a869c7732deec92304887a211042efccc884e4b551",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_187.json",
+      "image": "..\\processed\\images\\train_187.png",
+      "sha256": "190590d2aa625f7c48f6c4a74d5cf380bc6858f4a9f5ef7629ca672f0e8eb209",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_188.json",
+      "image": "..\\processed\\images\\train_188.png",
+      "sha256": "31198826db1ec2d9f100c255eb5fb36d4740b5d53c4e046dfbde850a089ff819",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_189.json",
+      "image": "..\\processed\\images\\train_189.png",
+      "sha256": "9ed6b56e60429c9879558036d27c606a23ca6231fb215f281fec8e019ee204bf",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_19.json",
+      "image": "..\\processed\\images\\train_19.png",
+      "sha256": "d03a2c3c46571c51aa68f8dc1976435faa42b75ed061e3b1329634e164d6938c",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_190.json",
+      "image": "..\\processed\\images\\train_190.png",
+      "sha256": "b943215b0903b46daf829d97da22f96a5f032de9a103b599b1e36b7a1ba03cfb",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_191.json",
+      "image": "..\\processed\\images\\train_191.png",
+      "sha256": "2fde36d7c2833fc18fc955f6e1a14218e9413626869968e1cab6090b9be1d89b",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_192.json",
+      "image": "..\\processed\\images\\train_192.png",
+      "sha256": "b55a984d1aa07401a67182399450cb283b531887109212f212326065b962d333",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_193.json",
+      "image": "..\\processed\\images\\train_193.png",
+      "sha256": "d8e85763c1bf232d06923b41e1646dd19b74e5feb5718df4116540a9a0a4b9fd",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_194.json",
+      "image": "..\\processed\\images\\train_194.png",
+      "sha256": "e8a3fddf19f9995057b42522d53f228f01e566cbedc69397940226b70ac813d6",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_195.json",
+      "image": "..\\processed\\images\\train_195.png",
+      "sha256": "cfeafa3b7715278b71de99eec338773e646536f5947632173a35b301b1af6be3",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_196.json",
+      "image": "..\\processed\\images\\train_196.png",
+      "sha256": "094c620f7af36421ea76a513552bacdf3b7ec99a215801d27c548b95b1105b2e",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_197.json",
+      "image": "..\\processed\\images\\train_197.png",
+      "sha256": "d381756e582d596e47a557cdf0e15e27f075742fda44b6ecbc947892187efac1",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_198.json",
+      "image": "..\\processed\\images\\train_198.png",
+      "sha256": "d2c9d56b6ba203654116bc7f03bd08045174b99456345957ab04b08c9e599c93",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_199.json",
+      "image": "..\\processed\\images\\train_199.png",
+      "sha256": "50a81f8dbdae4e5e5faeb8414345864c23e21efa9ee3f6c2c43b24fe0de3644c",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_2.json",
+      "image": "..\\processed\\images\\train_2.png",
+      "sha256": "2f5737c604424ca0ff827865c62601020acb34c45870c731367daece3a9ce7e5",
+      "labels": {
+        "bone": 2,
+        "cortical": 3
+      }
+    },
+    {
+      "annotation": "train_20.json",
+      "image": "..\\processed\\images\\train_20.png",
+      "sha256": "5ce45ff0fa1dee87a38f98c4800c24e56f19a72b666ed634191d155827857b9d",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_200.json",
+      "image": "..\\processed\\images\\train_200.png",
+      "sha256": "6f3241ece9ab0b4719084735c97f7bdb607250988a81460fd07b582138f5da3d",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_201.json",
+      "image": "..\\processed\\images\\train_201.png",
+      "sha256": "05abfcfc1ed9b3a1de7651ae21e167d30273cc20e41b3019cbf7c82dd8545350",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_202.json",
+      "image": "..\\processed\\images\\train_202.png",
+      "sha256": "2b51d411f89366baf0c8430f7560216be3c4e2c3edfe2eb252026e7d87f513b0",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_203.json",
+      "image": "..\\processed\\images\\train_203.png",
+      "sha256": "fe4c77d0bc1aac5637bb0bbbfb5eb72f2b52ea1bbc6a4a378c179f57eaff846a",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_204.json",
+      "image": "..\\processed\\images\\train_204.png",
+      "sha256": "d4fa3fdff2f38f9de272f1f419dfe341da8304e93d98e6b6e68ac61bcc51285d",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_205.json",
+      "image": "..\\processed\\images\\train_205.png",
+      "sha256": "31e496eb2ae3dae922a20fefd2e9f31e3eac2de0ae21a02105883b7c965420e7",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_206.json",
+      "image": "..\\processed\\images\\train_206.png",
+      "sha256": "6e862d76a1b823d446ed44297b605780fb87ac119830c978f7f8186eef1cf80b",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_207.json",
+      "image": "..\\processed\\images\\train_207.png",
+      "sha256": "4c11452a87e006c96f31694abf55769b14352530ba5f46173a687efcf5de340b",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_208.json",
+      "image": "..\\processed\\images\\train_208.png",
+      "sha256": "aaacd0885fd95724902d1a22272556160ae50dcb8fab85901164f53b091b0fb8",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_209.json",
+      "image": "..\\processed\\images\\train_209.png",
+      "sha256": "530dca959a99d247e0c1d5cf86bbb5a1eec916f9f4fc87ef866f05301ee6959a",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_21.json",
+      "image": "..\\processed\\images\\train_21.png",
+      "sha256": "3bb35bec141cecf3a53be1eb19f357865d8aea0f3d8668170d42383dd70bafa2",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_210.json",
+      "image": "..\\processed\\images\\train_210.png",
+      "sha256": "5fd2c7221c7a28cb8c3846ca2dc3cc92f95d13bc354e7756c46596be03d603ca",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_211.json",
+      "image": "..\\processed\\images\\train_211.png",
+      "sha256": "a3eb5b64848a075d4be85f8ef9d5cc0ac13eed81604fe452c45ba4b1c52c40e2",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_212.json",
+      "image": "..\\processed\\images\\train_212.png",
+      "sha256": "126c06e94b9d8b1c4baf66be0cdfdf146a975ea3e73cfed8873b48653e9e33c8",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_213.json",
+      "image": "..\\processed\\images\\train_213.png",
+      "sha256": "4be231957e80332798683718d1e4fabf6aa6ae67ce2ca7d3faabecfc256b54d0",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_214.json",
+      "image": "..\\processed\\images\\train_214.png",
+      "sha256": "d3e5373a4915f7e72fd92e3fb4763fb3803145ecb6fcf9899c5b973686831560",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_215.json",
+      "image": "..\\processed\\images\\train_215.png",
+      "sha256": "2ddd7929873a7b40422f28a1dde1a0f2e316f42628f19b8162d23c78bb2f1d8c",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_216.json",
+      "image": "..\\processed\\images\\train_216.png",
+      "sha256": "78c5e68a07f27933dfefad617d72544a0d17534f9a5ed16eaf37043f7118ca56",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_217.json",
+      "image": "..\\processed\\images\\train_217.png",
+      "sha256": "c08e8bea01ab38423f16c438a3deea2452e9fdb73befd2a28acf7917a42e22ed",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_218.json",
+      "image": "..\\processed\\images\\train_218.png",
+      "sha256": "388046df5330209fd3ca9e3ff25d6b532958a403fad711827fad1fb63d9f237b",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_219.json",
+      "image": "..\\processed\\images\\train_219.png",
+      "sha256": "5de78460bce8f4835a7928f12de7b88f94a52289dd6e0541e9556a2bec01816f",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_22.json",
+      "image": "..\\processed\\images\\train_22.png",
+      "sha256": "4b24826ec35e6d25e75577c6b4ae67d9c7467c9f962cbf1d2e3d618efa138931",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_220.json",
+      "image": "..\\processed\\images\\train_220.png",
+      "sha256": "6b15c1e4adc737af9aed6bf7042b6023d6727304aace3e392470fd7183e211f9",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_221.json",
+      "image": "..\\processed\\images\\train_221.png",
+      "sha256": "1c3012e9000e31d8babdba1b6f629a3d4c97401dccd3fae2673fe3d357f71ed2",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_222.json",
+      "image": "..\\processed\\images\\train_222.png",
+      "sha256": "0d5ac548d7f3f4f8cd5b4c7eb26aa4bf459bf078556beb01a9fc6f5b9253e883",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_223.json",
+      "image": "..\\processed\\images\\train_223.png",
+      "sha256": "b3a3447ac1093ec0da0e8d865cbb38e83a94f82e042dfcb77d350063bb4837b9",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_224.json",
+      "image": "..\\processed\\images\\train_224.png",
+      "sha256": "90f5448e3683e5cdf3fa84a4d3f393e862f5583259ac425d4d1b0f2652b53bdf",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_225.json",
+      "image": "..\\processed\\images\\train_225.png",
+      "sha256": "a230b788c2868adae30217ebfbac8576c6e1a043a34cdba3862b4551f227355d",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_226.json",
+      "image": "..\\processed\\images\\train_226.png",
+      "sha256": "d445774b7c0523786a1e35a82a95fb55900c2cbb79d9b81ee87fb314607c7af8",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_227.json",
+      "image": "..\\processed\\images\\train_227.png",
+      "sha256": "72cf250c2130b1330d38b6adbc8ea8ccea441780b0bea13760acff74d61c0587",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_228.json",
+      "image": "..\\processed\\images\\train_228.png",
+      "sha256": "f68b1fdd78f6c1f191a8c0d129c9929c4b4c577510412618903f6424f79ecc0c",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_229.json",
+      "image": "..\\processed\\images\\train_229.png",
+      "sha256": "446e0e15d348a36051a08fb36e6885f83690a833773e929106eb3c8680bd335e",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_23.json",
+      "image": "..\\processed\\images\\train_23.png",
+      "sha256": "63c9da3a0d59d38654dd1f2e98494103fc7af6f6511c6df4c7d40bb708cf6847",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_230.json",
+      "image": "..\\processed\\images\\train_230.png",
+      "sha256": "bccf83dbf18c7640591923c53a972496ddbc40399ccb9989fb0a1f038dab6faf",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_231.json",
+      "image": "..\\processed\\images\\train_231.png",
+      "sha256": "c3eb125ee52c9161cdfd2d5ff21ab280665b07620ae9cf30e541e384f1cf679b",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_232.json",
+      "image": "..\\processed\\images\\train_232.png",
+      "sha256": "0c6fa38ac2cbe198c8c41f1b8b3741bbba8d0b50062126d5888dfd771f49fb25",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_233.json",
+      "image": "..\\processed\\images\\train_233.png",
+      "sha256": "be1f2974d41772f51def5905f29e68fd0b02a55bac54fd8b3a793fa8e85ba468",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_234.json",
+      "image": "..\\processed\\images\\train_234.png",
+      "sha256": "4fbc3cc07a8cfe25e0da4e98e2aae2f4cbf1504c3567dac355b9129569664b1a",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_235.json",
+      "image": "..\\processed\\images\\train_235.png",
+      "sha256": "06e6045c3b7c37f99bfb2d5471bd77e05462e34165bbaecb4c76c67edcd1e796",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_236.json",
+      "image": "..\\processed\\images\\train_236.png",
+      "sha256": "b0f1f33e3239c2c5487666d0e0a551c2e4362a0565d161db8f167dad7456dbdb",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_237.json",
+      "image": "..\\processed\\images\\train_237.png",
+      "sha256": "5184ffff575392168bde101489190faff3e85a5c528edead9e76d9048593b9bd",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_238.json",
+      "image": "..\\processed\\images\\train_238.png",
+      "sha256": "cef5b3c5635ecdc364206681d90b5163e75b3d20e17ac1d1d9e728f2df72c6e7",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_239.json",
+      "image": "..\\processed\\images\\train_239.png",
+      "sha256": "adbbe9f7bfcee1d4e57883e6ffbca2b0104bd705d253b6209a75894afad13b45",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_24.json",
+      "image": "..\\processed\\images\\train_24.png",
+      "sha256": "160e28f8b751e51e03f3a62722e9ac7ad1f39427802a8cc0af605e2f098fb671",
+      "labels": {
+        "bone": 2,
+        "cortical": 1
+      }
+    },
+    {
+      "annotation": "train_240.json",
+      "image": "..\\processed\\images\\train_240.png",
+      "sha256": "92ff1936ef84681c9de4c863936d8fbd4541557842c78fb3865a60a199e4ac79",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_241.json",
+      "image": "..\\processed\\images\\train_241.png",
+      "sha256": "f15f19d69cc5fda9632b3ce61a5a790cf31a2d5dc46c49fb4f2862d9c498169f",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_242.json",
+      "image": "..\\processed\\images\\train_242.png",
+      "sha256": "2a5a55817ab9c2f1c90dbcdc3c2a4b314148df8e3c86a779513eaf791712e2cd",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_243.json",
+      "image": "..\\processed\\images\\train_243.png",
+      "sha256": "e1b0d65d6e4fa0ba3dcd35abbbae19e1194b8b195afddfbb0482ad7aa9cd8cdc",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_244.json",
+      "image": "..\\processed\\images\\train_244.png",
+      "sha256": "93de61d9616b19f242f1086adc6f346bc708a1e42461002a784932f36f43500d",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_245.json",
+      "image": "..\\processed\\images\\train_245.png",
+      "sha256": "ec94f9f0024959b0b9a0f848bb5004f825a2e1e510edf021bf81890d1f20a8dd",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_246.json",
+      "image": "..\\processed\\images\\train_246.png",
+      "sha256": "20222c76a96966d31cc08303d1d081c26a1abbf5e02762e9f0bfcd246ac9c495",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_247.json",
+      "image": "..\\processed\\images\\train_247.png",
+      "sha256": "5b73f82b7a6e282a25081a3fee53c208faf68b2735160d0e834e834c784d6936",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_248.json",
+      "image": "..\\processed\\images\\train_248.png",
+      "sha256": "dd2f0bd2caa29736e7a882e1a3138bbbeff037a07f56786fb2eecb6095eb91ca",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_249.json",
+      "image": "..\\processed\\images\\train_249.png",
+      "sha256": "2f55661b0f3d9762ecbcb1ae06d44120e18c224381d8399475bd9682f987bdc4",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_25.json",
+      "image": "..\\processed\\images\\train_25.png",
+      "sha256": "723d36d93df3eea5cfbaeb3d6d041c6359fc8d2ee59a4709c979a8e7e7395eba",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_250.json",
+      "image": "..\\processed\\images\\train_250.png",
+      "sha256": "1f0ea956be78aa1c60ef05a8bf79b567c49014ffcaf80796fcdd74485b3a4805",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_26.json",
+      "image": "..\\processed\\images\\train_26.png",
+      "sha256": "5b98c43296998f186d771ea0966fc10481e5a64761f23b92493e6f8326a347fb",
+      "labels": {
+        "bone": 2,
+        "cortical": 1
+      }
+    },
+    {
+      "annotation": "train_27.json",
+      "image": "..\\processed\\images\\train_27.png",
+      "sha256": "8d9ae5de14555441a7f66e7fda8ec2d4fd31847679981b9ae26b038d0a8d744a",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_28.json",
+      "image": "..\\processed\\images\\train_28.png",
+      "sha256": "5748f18bd523a7baeb5087870d4d0a1161df679f137cc1f6819fbba1fc3e9f10",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_29.json",
+      "image": "..\\processed\\images\\train_29.png",
+      "sha256": "ce7e8873d925362dd890a9fa68537f8f88f3298aabcfeb89fd71b281eeb376ac",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_3.json",
+      "image": "..\\processed\\images\\train_3.png",
+      "sha256": "a78d79c3c3ca04d92a9a9c2df7aae3163023d755917681b294bfd7018162072f",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_30.json",
+      "image": "..\\processed\\images\\train_30.png",
+      "sha256": "b0389109dc059bdc5e8714fb24b9b42034aee075aa12788c44b77d3b4713a9e9",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_31.json",
+      "image": "..\\processed\\images\\train_31.png",
+      "sha256": "57e3573fcc825d2cd9fe2721e6b3210de39d3760a5baebfd9d96904d392bfaf1",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_32.json",
+      "image": "..\\processed\\images\\train_32.png",
+      "sha256": "da3ba7ee1ce6c6834288951a7e3fa1513b5d70a53368acaf3bac4eddb45cafe0",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_33.json",
+      "image": "..\\processed\\images\\train_33.png",
+      "sha256": "8a6bb2c0ca68693a303b88d2bfecd1f08ceb288643ad60496f53b76689215203",
+      "labels": {
+        "bone": 2,
+        "cortical": 1
+      }
+    },
+    {
+      "annotation": "train_34.json",
+      "image": "..\\processed\\images\\train_34.png",
+      "sha256": "f09aab0f5dbdb4b526cc9149c780f128744fe77fd818734625c716ac8d38fe93",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_35.json",
+      "image": "..\\processed\\images\\train_35.png",
+      "sha256": "723d962e96c013ed39aca2a363968e20b3c45afc9dab2b6b436c5314643b5638",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_36.json",
+      "image": "..\\processed\\images\\train_36.png",
+      "sha256": "0ae036a611e6016631a843740b53b3cb90bc58d034ea60964da6460d687c2d5d",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_37.json",
+      "image": "..\\processed\\images\\train_37.png",
+      "sha256": "e8cb3e0a0c7cd62bf0c40c5c3230e566e6757a16eed78dbde9f0333f01bb6487",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_38.json",
+      "image": "..\\processed\\images\\train_38.png",
+      "sha256": "c8587161e234a9277c6adb47ed6640d1bcdc3ca1f64d30670cbcb01c18dfdfcd",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_39.json",
+      "image": "..\\processed\\images\\train_39.png",
+      "sha256": "7851d60df138d941575a290deb7ec7bb280198a61a17660a4f5f1458a5308b2b",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_4.json",
+      "image": "..\\processed\\images\\train_4.png",
+      "sha256": "92bb2b10d75ff08165ed2bb641421fbb6002dab4df2374f9babbedae0adf62fa",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_40.json",
+      "image": "..\\processed\\images\\train_40.png",
+      "sha256": "204e3bbc1525f695ad7a060a9d9dea3eeeffe104d0a99f2d84ba7d6245c3ddee",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_41.json",
+      "image": "..\\processed\\images\\train_41.png",
+      "sha256": "a301bbb346221f17f83d6c3689089a47559cfb66862225e470f0d7d33d765f64",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_42.json",
+      "image": "..\\processed\\images\\train_42.png",
+      "sha256": "ff72ed95392b7dc4a33d5476cf854a3fadf48967b8003ee3e878d52668719c4d",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_43.json",
+      "image": "..\\processed\\images\\train_43.png",
+      "sha256": "9ebe25a67f368fb70fd322b336808a19fbc0aefe4c16461c9ec5865e2fe71877",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_44.json",
+      "image": "..\\processed\\images\\train_44.png",
+      "sha256": "cf34bc3dc85a72a45de23938b81c714618bbf7da92a24eb8c76017e820edceba",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_45.json",
+      "image": "..\\processed\\images\\train_45.png",
+      "sha256": "2ab56f958b7b03b6c6b0caf81c9161b320d5f1eafd6833b51329008b1d49d7d1",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_46.json",
+      "image": "..\\processed\\images\\train_46.png",
+      "sha256": "ae1b55dd308cadc2376bc4961791cb6344063a23da41a92df8ba95d2b8354e67",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_47.json",
+      "image": "..\\processed\\images\\train_47.png",
+      "sha256": "6424b95df3adc3ff8278e1124832b1488f68f4918d0a4f130911c3c2bb3042fe",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_48.json",
+      "image": "..\\processed\\images\\train_48.png",
+      "sha256": "6d6b0f69a28c740e62459db824bac367a92be846e22f3349668663f18100a152",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_49.json",
+      "image": "..\\processed\\images\\train_49.png",
+      "sha256": "dfd85f5f0e8f4bdcf299d5cb2e72eeb9e4d24d11a1084d47faf05397142d8530",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_5.json",
+      "image": "..\\processed\\images\\train_5.png",
+      "sha256": "be7da7b20c83a3ab2275387b13234faf3c83e2a3617536712e2995d60f1267cc",
+      "labels": {
+        "bone": 2,
+        "cortical": 1
+      }
+    },
+    {
+      "annotation": "train_50.json",
+      "image": "..\\processed\\images\\train_50.png",
+      "sha256": "aa99d4e13172f9a030e0cefb9c38cf805b89c0962d0f41ac5fe4d6d7b7a581d4",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_51.json",
+      "image": "..\\processed\\images\\train_51.png",
+      "sha256": "1d14595da8feb9b1464afe6d597e7a9bbe04d326384480a0545001af99550285",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_52.json",
+      "image": "..\\processed\\images\\train_52.png",
+      "sha256": "db1bf40de413892e565ae29cbc4b9ebae1566cb6cf87176ed9095de953ce7678",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_53.json",
+      "image": "..\\processed\\images\\train_53.png",
+      "sha256": "3db5f28f40b864d68a75877214c37effe3378b175ef746b3591b96199d5bd254",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_54.json",
+      "image": "..\\processed\\images\\train_54.png",
+      "sha256": "425a627857cce9803414f96b71e4409e553340cc6754d22aeafea23d4f17801e",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_55.json",
+      "image": "..\\processed\\images\\train_55.png",
+      "sha256": "b559600d28a67daa939a4951500278e989b3a6a6098b9936e97a8261bdf5cfb7",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_56.json",
+      "image": "..\\processed\\images\\train_56.png",
+      "sha256": "f9fdcabef9cfe9e5dbeb44aee398d3201f59e3a686bf799d72e8b17e49c9e32b",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_57.json",
+      "image": "..\\processed\\images\\train_57.png",
+      "sha256": "5036754b5141c7408561d59677bbfd848479e428c154a3844ee2e5f123cfb863",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_58.json",
+      "image": "..\\processed\\images\\train_58.png",
+      "sha256": "3d3aa271a57c3f9447918a8e2ec868b9bd4e8efc6e0766896f733b45fc5d2487",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_59.json",
+      "image": "..\\processed\\images\\train_59.png",
+      "sha256": "b2f778a5e87286fccbbf8832878b4c0c84ec2d25484b262408255f1fbe89be2c",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_6.json",
+      "image": "..\\processed\\images\\train_6.png",
+      "sha256": "7da929ded929b9dab42da064e51e5fd5456e12b1f99145bf30261ec4f9e7759e",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_60.json",
+      "image": "..\\processed\\images\\train_60.png",
+      "sha256": "80ad2ed8dcc26d4d9e10416ba2f77cafe450d0d6dfb54b93e8424ac3a28a16f9",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_61.json",
+      "image": "..\\processed\\images\\train_61.png",
+      "sha256": "ca50a7d927bc1a56601d7d25b62ea692c078b7dd5d92f44778380bc9edff75ea",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_62.json",
+      "image": "..\\processed\\images\\train_62.png",
+      "sha256": "17f0978899363b6ded8803e7108fd30265d0f5acff053c928d9368e0034930ab",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_63.json",
+      "image": "..\\processed\\images\\train_63.png",
+      "sha256": "65ca74b06a4dc2bbd690fbcd0eec81942b91ed46abc242909db687f599b94b7a",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_64.json",
+      "image": "..\\processed\\images\\train_64.png",
+      "sha256": "92b0a2f354a3693836687d307d46ac82829195aea6a1fa7d8861db4fc078a03c",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_65.json",
+      "image": "..\\processed\\images\\train_65.png",
+      "sha256": "6c1a79907a6a2dc1f11ca83d12d233961f432b1186b6cc258646c084d0b23ab1",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_66.json",
+      "image": "..\\processed\\images\\train_66.png",
+      "sha256": "8ea666d266eddd0f56339d0699a4a3e454ec3a3166693c6a62a212c9b72ac22c",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_67.json",
+      "image": "..\\processed\\images\\train_67.png",
+      "sha256": "0001200fd3eb1c560f86e00db55724bfab627f1e2c7ef3db87356dd476c6c16a",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_68.json",
+      "image": "..\\processed\\images\\train_68.png",
+      "sha256": "1cb971dce32b7b9cde6a79f708f088e451ad5ea43b7258985dd219306dbd3229",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_69.json",
+      "image": "..\\processed\\images\\train_69.png",
+      "sha256": "2420ce2944778eb4663218c32e275debcd1be160cd42966296c4aaed414de48e",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_7.json",
+      "image": "..\\processed\\images\\train_7.png",
+      "sha256": "e6482d61d0c46a4fdf0a99165f416a5570de78a6fef71d2372fbc4d892cfe431",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_70.json",
+      "image": "..\\processed\\images\\train_70.png",
+      "sha256": "b08f31bd866d7b1d3a5bce4c556ae1b058f3bb973c9653b6c344eb890d93dac7",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_71.json",
+      "image": "..\\processed\\images\\train_71.png",
+      "sha256": "304941dc74ab7d1b2319969d00dc36da7f997c175b325a047a8068c52adba237",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_72.json",
+      "image": "..\\processed\\images\\train_72.png",
+      "sha256": "6a5c30d3a32650fb8067fbbce814853f1e5da76b53b276b769c078e6049bcfa6",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_73.json",
+      "image": "..\\processed\\images\\train_73.png",
+      "sha256": "dab1841c6c217523a610f86d8e0448ffa802453b7eefe55adce1f658d985c147",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_74.json",
+      "image": "..\\processed\\images\\train_74.png",
+      "sha256": "ed0347e427c52e3e08ed52993d458a32af96508e173828ffe9398657532d7083",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_75.json",
+      "image": "..\\processed\\images\\train_75.png",
+      "sha256": "95290acab6f89630b6fd07b83e92014726eeaf85a8cb79c0260e55007d7165ce",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_76.json",
+      "image": "..\\processed\\images\\train_76.png",
+      "sha256": "cfffebb80639e6da35a736bd9baba80a1cfcbd0456b88045146666b3fec977f5",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_77.json",
+      "image": "..\\processed\\images\\train_77.png",
+      "sha256": "b37f9ff4fee15d791896ef4269be45a4236e821aca7232d90f5288f858aa59b4",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_78.json",
+      "image": "..\\processed\\images\\train_78.png",
+      "sha256": "aa763f70cc8d3cfd024e904f7c2a51b6f3501eff9babd8bdc74c353c0e5b7809",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_79.json",
+      "image": "..\\processed\\images\\train_79.png",
+      "sha256": "d037f485cba006c7d232b3ec7772d2fb2d9a46ea677c90d3b1662cf8ae46cd5d",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_8.json",
+      "image": "..\\processed\\images\\train_8.png",
+      "sha256": "17dabef879fa6ec61eb016c85be2f40bd5612406a4ab3ea2e4db932d39a17d1d",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_80.json",
+      "image": "..\\processed\\images\\train_80.png",
+      "sha256": "de1d0dee4e96ecdad9f3e4009aaa91553309d45d50af05093d31050761285c5e",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_81.json",
+      "image": "..\\processed\\images\\train_81.png",
+      "sha256": "c2a1c2e39a6d9ae08ab97db3305d49e9ab7593ce064f95e2d17b1f4c8307955e",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_82.json",
+      "image": "..\\processed\\images\\train_82.png",
+      "sha256": "155e23670b91e6e510ae02db191c559c1463e7c9f803b197888d7990015216ba",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_83.json",
+      "image": "..\\processed\\images\\train_83.png",
+      "sha256": "afaf53b17d67bee3b6e3d33315297937aa52e1b3c54d06a57cf70d27153eb2b3",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_84.json",
+      "image": "..\\processed\\images\\train_84.png",
+      "sha256": "fea2d422a9dce63d8ea2189a2b24082b980a7c064596f891874d43b860cf1a51",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_85.json",
+      "image": "..\\processed\\images\\train_85.png",
+      "sha256": "74fabac4c57da37c176f5364949b4f2ec216715d481a719ae377c3fad13f7a0b",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_86.json",
+      "image": "..\\processed\\images\\train_86.png",
+      "sha256": "dc7124cd94494ddd7ea17a28dca1dc1e09d1c571658073a210a16dc88ea2625d",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_87.json",
+      "image": "..\\processed\\images\\train_87.png",
+      "sha256": "01ab8584e62adb850297d66e077b3ff9970d8ad1098667b8576c4257163b2fd0",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_88.json",
+      "image": "..\\processed\\images\\train_88.png",
+      "sha256": "7346cbd03f07b6b82f1810d4b330a61915fec82adde54dfdecbea52a80126f17",
+      "labels": {
+        "bone": 2,
+        "cortical": 1
+      }
+    },
+    {
+      "annotation": "train_89.json",
+      "image": "..\\processed\\images\\train_89.png",
+      "sha256": "21c0efc52d4acc7a5f0d297fe9d56375c8414c3d16765bc32e317d402a55807d",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_9.json",
+      "image": "..\\processed\\images\\train_9.png",
+      "sha256": "66b6014138f846858715cf3699f84d398fae04f5405dd9a0809ec8ee6a9296d5",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_90.json",
+      "image": "..\\processed\\images\\train_90.png",
+      "sha256": "967fb3f58e865e0981a8a062792a7c4eee237d047f1cb17c0abe31982598509a",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_91.json",
+      "image": "..\\processed\\images\\train_91.png",
+      "sha256": "176b7f7bc780b73bdd6cb9b99d4eb22e6aa999824858d6f6ab0a7360cc08c9d1",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_92.json",
+      "image": "..\\processed\\images\\train_92.png",
+      "sha256": "ad924d603097c22061cb6cae290b24f0b8c49c859b8299a48830f1d7d16deafb",
+      "labels": {
+        "bone": 2,
+        "cortical": 2
+      }
+    },
+    {
+      "annotation": "train_93.json",
+      "image": "..\\processed\\images\\train_93.png",
+      "sha256": "ced674da87fdd17f6f608dd0d7d8b1d0b421e2c0151edfa0e12092554de8bf45",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_94.json",
+      "image": "..\\processed\\images\\train_94.png",
+      "sha256": "41f07ef101de6b12a05c31062500549e0d576ca70d6d57ce5796beab75b2ea1a",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_95.json",
+      "image": "..\\processed\\images\\train_95.png",
+      "sha256": "32036be2012b6e57c16937337872765b61e0d8965224d3996307835b0cf55b23",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_96.json",
+      "image": "..\\processed\\images\\train_96.png",
+      "sha256": "9bf2cf4a9c87f61c0e88712019060a7a023a09f81f0b18d2e21fea727cba7a24",
+      "labels": {
+        "bone": 2,
+        "cortical": 1
+      }
+    },
+    {
+      "annotation": "train_97.json",
+      "image": "..\\processed\\images\\train_97.png",
+      "sha256": "67d0960b512853f980e85868229750b9b265ed953096a172bf04734e646f97a8",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_98.json",
+      "image": "..\\processed\\images\\train_98.png",
+      "sha256": "e40b57f303dab68a213e16c3d599652fc2f371a9335fff1626df3ad462bda4da",
+      "labels": {
+        "bone": 2
+      }
+    },
+    {
+      "annotation": "train_99.json",
+      "image": "..\\processed\\images\\train_99.png",
+      "sha256": "5614af526fc2030e5371f7a149c61ca2dc3d48b4b2acea8bed02265742603a00",
+      "labels": {
+        "bone": 2
+      }
+    }
+  ]
+}
