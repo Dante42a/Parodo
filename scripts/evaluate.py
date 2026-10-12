@@ -16,7 +16,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np
 import pandas as pd
 import torch
-import mlflow
 from omegaconf import OmegaConf
 from torch.utils.data import DataLoader
 from tqdm import tqdm

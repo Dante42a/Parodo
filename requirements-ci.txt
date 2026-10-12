@@ -1,0 +1,7 @@
+# Минимальные зависимости для CI (тесты stage2 без весов моделей).
+# torch ставится отдельно с CPU-индексом — см. .github/workflows/ci.yml
+numpy>=1.26.0
+omegaconf>=2.3.0
+opencv-python-headless>=4.10.0
+scipy>=1.11.0
+pytest>=8.0.0

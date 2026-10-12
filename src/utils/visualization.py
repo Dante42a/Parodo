@@ -2,7 +2,6 @@
 Visualization utilities: colored mask overlay, bone ratio annotations.
 """
 
-from typing import List, Optional
 import cv2
 import numpy as np
 

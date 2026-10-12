@@ -8,7 +8,7 @@ the trainer upsamples to full resolution before computing loss.
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from transformers import SegformerForSemanticSegmentation, SegformerConfig
+from transformers import SegformerForSemanticSegmentation
 from omegaconf import DictConfig
 
 

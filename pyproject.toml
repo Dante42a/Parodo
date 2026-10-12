@@ -1,0 +1,12 @@
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+extend-exclude = ["notebooks"]
+
+[tool.ruff.lint]
+# Базовый набор ruff: синтаксис, неиспользуемые импорты/переменные, явные ошибки
+select = ["E4", "E7", "E9", "F"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
