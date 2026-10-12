@@ -70,7 +70,7 @@ def load_pipeline(model_path: str, yolo_path: str = None) -> PeriodontalPipeline
 def analyze_opg(image: np.ndarray, pipeline: PeriodontalPipeline):
     """Main analysis function called by Gradio."""
     if image is None:
-        return None, "", "", DISCLAIMER
+        return None, "", DISCLAIMER
 
     # Gradio gives RGB; pipeline handles any format
     result = pipeline.run(image)

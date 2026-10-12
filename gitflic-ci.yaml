@@ -1,0 +1,20 @@
+image: python:3.12-slim
+
+stages:
+  - test
+  - build
+
+test:
+  stage: test
+  script:
+    - pip install --no-cache-dir -r requirements-api.txt pytest ruff
+    - ruff check src/api tests
+    - pytest
+
+docker-config:
+  stage: build
+  script:
+    - python -m compileall src app frontend
+    - test -f Dockerfile.api
+    - test -f Dockerfile.frontend
+    - test -f docker-compose.yml

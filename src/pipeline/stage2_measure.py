@@ -14,11 +14,14 @@ Accepts ToothInstance objects from YOLOv8-seg (stage1_segment.run_tooth_instance
 """
 
 from dataclasses import dataclass
-from typing import List
+from typing import TYPE_CHECKING, Any, List
 
 import numpy as np
 
-from src.pipeline.stage1_segment import ToothInstance
+if TYPE_CHECKING:
+    from src.pipeline.stage1_segment import ToothInstance
+else:
+    ToothInstance = Any
 
 CORTICAL_BAND_PX = 5
 
