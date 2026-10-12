@@ -21,7 +21,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from omegaconf import OmegaConf
 from src.pipeline.full_pipeline import PeriodontalPipeline
-from src.utils.visualization import draw_diagnosis_card
 
 DISCLAIMER = (
     "⚠️ ВАЖНО: Данная система предназначена исключительно для исследовательских целей. "

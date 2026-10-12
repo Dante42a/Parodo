@@ -11,7 +11,7 @@ import numpy as np
 from omegaconf import DictConfig
 
 from src.losses.combined import build_loss
-from src.metrics.segmentation import compute_iou_per_class, compute_dice_per_class, miou
+from src.metrics.segmentation import compute_iou_per_class, compute_dice_per_class
 
 
 class SegmentationModule(pl.LightningModule):

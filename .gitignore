@@ -82,6 +82,8 @@ Thumbs.db
 *.bak
 *.orig
 *.tmp
+parodo-deploy-key
+parodo-deploy-key.pub
 
 # Аннотации хранятся без встроенных изображений (imageData=null) — снимки не коммитим
 data/annotations/*.png
