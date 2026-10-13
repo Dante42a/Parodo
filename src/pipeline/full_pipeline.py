@@ -86,7 +86,8 @@ class PeriodontalPipeline:
         if yolo_path:
             self.load_yolo(yolo_path)
         else:
-            logger.warning("No YOLO model — falling back to connected-components for tooth instances.")
+            # YOLO можно догрузить позже через load_yolo() (так делает API); до этого — запасной алгоритм
+            logger.info("YOLO not loaded yet — connected-components fallback until load_yolo() is called")
 
     def load_yolo(self, yolo_path: str) -> None:
         # Путь задан явно — его отсутствие считаем ошибкой, а не поводом молча работать без YOLO

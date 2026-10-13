@@ -1,3 +1,6 @@
+# Имя проекта закреплено: деплой новых релизов заменяет контейнеры, а не поднимает второй комплект
+name: parodo
+
 services:
   api:
     build:
@@ -6,8 +9,9 @@ services:
     environment:
       PARODO_MODEL_PATH: /models/semantic.ckpt
       PARODO_YOLO_PATH: /models/yolo.pt
-      PARODO_MODEL_VERSION: local-demo
+      PARODO_CONFIG: configs/deeplabv3plus.yaml
       PARODO_DEVICE: cpu
+      # версия модели вычисляется при загрузке (архитектура + sha256 весов и конфига) — см. /readyz
     volumes:
       - ./checkpoints:/models:ro
     ports:
@@ -18,6 +22,7 @@ services:
       interval: 20s
       timeout: 5s
       retries: 3
+      start_period: 60s  # импорт torch на 1 CPU занимает время; /readyz покажет, когда модель загрузится
 
   frontend:
     build:

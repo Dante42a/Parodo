@@ -1,13 +1,14 @@
 .PHONY: install-api test lint api frontend compose
 
 install-api:
-	python -m pip install -r requirements-api.txt pytest ruff
+	python -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+	python -m pip install -r requirements-ci.txt ruff
 
 test:
 	pytest
 
 lint:
-	ruff check src/api tests
+	ruff check .
 
 api:
 	uvicorn src.api.main:app --reload --port 8000

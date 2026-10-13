@@ -1,10 +1,16 @@
 FROM python:3.12-slim
 WORKDIR /app
-ARG INSTALL_ML=false
+# libgl1/libglib2.0 нужны opencv-python, который тянет ultralytics
 RUN apt-get update && apt-get install -y --no-install-recommends libglib2.0-0 libgl1 && rm -rf /var/lib/apt/lists/*
-COPY requirements.txt requirements-api.txt ./
-RUN pip install --no-cache-dir -r requirements-api.txt \
-    && if [ "$INSTALL_ML" = "true" ]; then pip install --no-cache-dir -r requirements.txt; fi
+
+# Отдельный слой с torch — самый тяжёлый; Docker кэширует его, и пересборка после правок кода быстрая.
+# CPU-сборка: на сервере нет GPU, а CUDA-колёса весят несколько ГБ. Для GPU — переопределить через --build-arg.
+ARG TORCH_INDEX_URL=https://download.pytorch.org/whl/cpu
+RUN pip install --no-cache-dir --index-url "$TORCH_INDEX_URL" torch==2.14.1 torchvision==0.29.1
+
+COPY requirements-api.txt requirements-app.txt ./
+RUN pip install --no-cache-dir -r requirements-api.txt -r requirements-app.txt
+
 COPY configs configs
 COPY src src
 EXPOSE 8000

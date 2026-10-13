@@ -198,6 +198,7 @@ class AnalysisService:
                     ) from exc
             else:
                 self.warnings.append(YOLO_NOT_CONFIGURED)
+                logger.warning("yolo_not_configured: %s", YOLO_NOT_CONFIGURED)
 
             self.model_info = ModelInfo(
                 arch=arch,
