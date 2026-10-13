@@ -8,7 +8,7 @@ from omegaconf import OmegaConf
 
 from src.api.service import AnalysisService, ModelState
 from src.models.model_factory import create_model
-from tests.test_model_loading import TINY_CONFIG
+from tests.conftest import TINY_CONFIG
 
 
 def test_export_keeps_only_weights_and_api_loads_them(tmp_path, monkeypatch):
