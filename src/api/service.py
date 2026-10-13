@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import base64
+import hashlib
 import logging
 import os
 import threading
@@ -12,7 +13,7 @@ import cv2
 import numpy as np
 from omegaconf import OmegaConf
 
-from src.api.schemas import AnalysisResponse, ToothResult
+from src.api.schemas import AnalysisResponse, ModelInfo, ToothResult
 
 logger = logging.getLogger("parodo.api")
 
@@ -67,6 +68,22 @@ YOLO_NOT_CONFIGURED = (
 )
 
 
+def sha256_file(path: str | Path) -> str:
+    digest = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def build_model_version(arch: str, semantic: str, yolo: str | None, config: str) -> str:
+    """Версия = архитектура + короткие хэши весов и конфига: сменились веса или правила — сменилась версия."""
+    version = f"{arch}@{semantic[:8]}"
+    if yolo:
+        version += f"+yolo@{yolo[:8]}"
+    return f"{version}+cfg@{config[:8]}"
+
+
 def missing_dependency(exc: ImportError) -> str:
     return f"в окружении нет ML-зависимости «{exc.name or exc}» — образ API собран без библиотек инференса"
 
@@ -81,7 +98,8 @@ class AnalysisService:
         self.warnings: list[str] = []  # модель работает, но с оговорками (например, без YOLO)
         self.model_path = os.getenv("PARODO_MODEL_PATH", "")
         self.yolo_path = os.getenv("PARODO_YOLO_PATH", "")
-        self.model_version = os.getenv("PARODO_MODEL_VERSION", "unconfigured")
+        self.model_version = "unconfigured"
+        self.model_info: ModelInfo | None = None  # полные хэши и пути — для сверки с файлами на сервере
 
     @property
     def loaded(self) -> bool:
@@ -118,6 +136,8 @@ class AnalysisService:
             self.state = ModelState.LOADING
             self.error = None
             self.warnings = []
+            self.model_version = "unconfigured"  # версия появляется только у успешно загруженной модели
+            self.model_info = None
 
             # Этап 1: конфиг (архитектура модели и параметры пайплайна)
             config_path = os.getenv("PARODO_CONFIG", "configs/deeplabv3plus.yaml")
@@ -128,10 +148,13 @@ class AnalysisService:
             if "model" not in cfg:
                 raise ModelLoadError(f"в конфиге {config_path} нет секции model — не задана архитектура")
             arch = f"{cfg.model.name}/{cfg.model.get('encoder_name', '-')}"
+            # хэш итогового конфига: архитектура + пороги классификации (правила диагноза)
+            config_sha256 = hashlib.sha256(OmegaConf.to_yaml(cfg, resolve=True).encode()).hexdigest()
 
             # Этап 2: семантическая модель (кость, кортикальная пластинка, зубы)
             if not Path(self.model_path).is_file():
                 raise ModelLoadError(f"PARODO_MODEL_PATH does not point to model weights: {self.model_path}")
+            semantic_sha256 = sha256_file(self.model_path)
             try:
                 from src.pipeline.full_pipeline import PeriodontalPipeline
 
@@ -152,9 +175,11 @@ class AnalysisService:
                 ) from exc
 
             # Этап 3: YOLO (отдельные зубы). Путь задан — файл обязан быть; не задан — работаем с оговоркой
+            yolo_sha256 = None
             if self.yolo_path:
                 try:
                     pipeline.load_yolo(self.yolo_path)
+                    yolo_sha256 = sha256_file(self.yolo_path)
                 except FileNotFoundError as exc:
                     raise ModelLoadError(f"PARODO_YOLO_PATH не указывает на файл: {self.yolo_path}") from exc
                 except ImportError as exc:
@@ -166,9 +191,21 @@ class AnalysisService:
             else:
                 self.warnings.append(YOLO_NOT_CONFIGURED)
 
+            self.model_info = ModelInfo(
+                arch=arch,
+                config=config_path,
+                config_sha256=config_sha256,
+                semantic_path=self.model_path,
+                semantic_sha256=semantic_sha256,
+                yolo_path=self.yolo_path or None,
+                yolo_sha256=yolo_sha256,
+            )
+            self.model_version = build_model_version(
+                arch.replace("/", "-"), semantic_sha256, yolo_sha256, config_sha256
+            )
             self._pipeline = pipeline
             self.state = ModelState.READY
-            logger.info("model_ready arch=%s path=%s yolo=%s", arch, self.model_path, self.yolo_path or "-")
+            logger.info("model_ready version=%s", self.model_version)
 
     def analyze(self, image: np.ndarray) -> AnalysisResponse:
         if self.state == ModelState.NOT_STARTED:

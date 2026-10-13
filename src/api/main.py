@@ -49,6 +49,7 @@ def ready(response: Response) -> HealthResponse:
         model_version=service.model_version,
         error=service.error,
         warnings=service.warnings,
+        model_info=service.model_info,
     )
 
 

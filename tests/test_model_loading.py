@@ -150,3 +150,37 @@ def test_ready_without_yolo_warns(make_client, tiny_weights, tiny_config):
     assert response.status_code == 200
     assert response.json()["status"] == ModelState.READY
     assert any("PARODO_YOLO_PATH" in w for w in response.json()["warnings"])
+
+
+# ── Версия модели ────────────────────────────────────────────────────────────
+
+
+def test_version_is_computed_from_loaded_files(make_client, tiny_weights, tiny_config):
+    import hashlib
+    import re
+
+    client, _ = loaded(make_client, PARODO_MODEL_PATH=tiny_weights, PARODO_CONFIG=tiny_config)
+    body = client.get("/readyz").json()
+    assert re.fullmatch(r"deeplabv3plus-resnet18@[0-9a-f]{8}\+cfg@[0-9a-f]{8}", body["model_version"])
+    # полный хэш в /readyz совпадает с хэшем файла — его можно сверить через sha256sum на сервере
+    assert body["model_info"]["semantic_sha256"] == hashlib.sha256(tiny_weights.read_bytes()).hexdigest()
+    assert body["model_version"].split("@")[1].startswith(body["model_info"]["semantic_sha256"][:8])
+
+
+def test_other_weights_give_other_version(make_client, tiny_weights, tiny_config, tmp_path):
+    import torch
+
+    _, first = loaded(make_client, PARODO_MODEL_PATH=tiny_weights, PARODO_CONFIG=tiny_config)
+    state = torch.load(tiny_weights, weights_only=True)
+    state["state_dict"] = {k: v + 1 if v.is_floating_point() else v for k, v in state["state_dict"].items()}
+    retrained = tmp_path / "retrained.ckpt"
+    torch.save(state, retrained)
+    _, second = loaded(make_client, PARODO_MODEL_PATH=retrained, PARODO_CONFIG=tiny_config)
+    assert first.model_version != second.model_version
+
+
+def test_version_is_unconfigured_until_ready(make_client, tmp_path):
+    client, _ = loaded(make_client, PARODO_MODEL_PATH=tmp_path / "missing.ckpt")
+    body = client.get("/readyz").json()
+    assert body["model_version"] == "unconfigured"
+    assert body["model_info"] is None
