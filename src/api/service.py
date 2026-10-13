@@ -58,6 +58,19 @@ class ModelUnavailable(RuntimeError):
     """Модель не готова к анализу (→ HTTP 503)."""
 
 
+class ModelLoadError(RuntimeError):
+    """Загрузка не удалась; текст — понятная причина для /readyz."""
+
+
+YOLO_NOT_CONFIGURED = (
+    "PARODO_YOLO_PATH не задан: зубы выделяются запасным алгоритмом (связные компоненты), точность ниже"
+)
+
+
+def missing_dependency(exc: ImportError) -> str:
+    return f"в окружении нет ML-зависимости «{exc.name or exc}» — образ API собран без библиотек инференса"
+
+
 class AnalysisService:
     def __init__(self) -> None:
         self._pipeline = None
@@ -65,6 +78,7 @@ class AnalysisService:
         self.loader: threading.Thread | None = None
         self.state = ModelState.NOT_STARTED
         self.error: str | None = None
+        self.warnings: list[str] = []  # модель работает, но с оговорками (например, без YOLO)
         self.model_path = os.getenv("PARODO_MODEL_PATH", "")
         self.yolo_path = os.getenv("PARODO_YOLO_PATH", "")
         self.model_version = os.getenv("PARODO_MODEL_VERSION", "unconfigured")
@@ -84,7 +98,11 @@ class AnalysisService:
             self.load()
         except ModelUnavailable:
             pass  # not_configured — состояние и причину уже выставил load()
-        except Exception as exc:  # причину отдаём в /readyz
+        except ModelLoadError as exc:
+            logger.error("model_load_failed reason=%s", exc, exc_info=exc.__cause__)
+            self.state = ModelState.LOAD_FAILED
+            self.error = str(exc)
+        except Exception as exc:  # непредвиденная ошибка — отдаём как есть
             logger.exception("model_load_failed")
             self.state = ModelState.LOAD_FAILED
             self.error = f"{type(exc).__name__}: {exc}"
@@ -99,20 +117,58 @@ class AnalysisService:
                 raise ModelUnavailable(self.error)
             self.state = ModelState.LOADING
             self.error = None
-            if not Path(self.model_path).is_file():
-                raise FileNotFoundError(f"PARODO_MODEL_PATH does not point to model weights: {self.model_path}")
-            from src.pipeline.full_pipeline import PeriodontalPipeline
+            self.warnings = []
 
-            cfg = OmegaConf.load(os.getenv("PARODO_CONFIG", "configs/deeplabv3plus.yaml"))
-            base = OmegaConf.load("configs/base.yaml")
-            self._pipeline = PeriodontalPipeline(
-                self.model_path,
-                cfg=OmegaConf.merge(base, cfg),
-                yolo_path=self.yolo_path or None,
-                device=os.getenv("PARODO_DEVICE", "cpu"),
-            )
+            # Этап 1: конфиг (архитектура модели и параметры пайплайна)
+            config_path = os.getenv("PARODO_CONFIG", "configs/deeplabv3plus.yaml")
+            try:
+                cfg = OmegaConf.merge(OmegaConf.load("configs/base.yaml"), OmegaConf.load(config_path))
+            except Exception as exc:
+                raise ModelLoadError(f"конфиг PARODO_CONFIG={config_path} не прочитан: {exc}") from exc
+            if "model" not in cfg:
+                raise ModelLoadError(f"в конфиге {config_path} нет секции model — не задана архитектура")
+            arch = f"{cfg.model.name}/{cfg.model.get('encoder_name', '-')}"
+
+            # Этап 2: семантическая модель (кость, кортикальная пластинка, зубы)
+            if not Path(self.model_path).is_file():
+                raise ModelLoadError(f"PARODO_MODEL_PATH does not point to model weights: {self.model_path}")
+            try:
+                from src.pipeline.full_pipeline import PeriodontalPipeline
+
+                pipeline = PeriodontalPipeline(
+                    self.model_path, cfg=cfg, yolo_path=None, device=os.getenv("PARODO_DEVICE", "cpu")
+                )
+            except ImportError as exc:
+                raise ModelLoadError(f"семантическая модель: {missing_dependency(exc)}") from exc
+            except Exception as exc:
+                if "state_dict" in str(exc):
+                    detail = str(exc).splitlines()[0]
+                    raise ModelLoadError(
+                        f"веса {self.model_path} не подходят к архитектуре {arch} из {config_path}: {detail}"
+                    ) from exc
+                raise ModelLoadError(
+                    f"файл {self.model_path} повреждён или не является чекпойнтом PyTorch "
+                    f"({type(exc).__name__}: {exc})"
+                ) from exc
+
+            # Этап 3: YOLO (отдельные зубы). Путь задан — файл обязан быть; не задан — работаем с оговоркой
+            if self.yolo_path:
+                try:
+                    pipeline.load_yolo(self.yolo_path)
+                except FileNotFoundError as exc:
+                    raise ModelLoadError(f"PARODO_YOLO_PATH не указывает на файл: {self.yolo_path}") from exc
+                except ImportError as exc:
+                    raise ModelLoadError(f"YOLO: {missing_dependency(exc)}") from exc
+                except Exception as exc:
+                    raise ModelLoadError(
+                        f"YOLO {self.yolo_path} не загрузился ({type(exc).__name__}: {exc})"
+                    ) from exc
+            else:
+                self.warnings.append(YOLO_NOT_CONFIGURED)
+
+            self._pipeline = pipeline
             self.state = ModelState.READY
-            logger.info("model_ready path=%s", self.model_path)
+            logger.info("model_ready arch=%s path=%s yolo=%s", arch, self.model_path, self.yolo_path or "-")
 
     def analyze(self, image: np.ndarray) -> AnalysisResponse:
         if self.state == ModelState.NOT_STARTED:
@@ -134,7 +190,7 @@ class AnalysisService:
             spread=diagnosis.spread,
             overall_severity=diagnosis.overall_severity,
             num_affected=diagnosis.num_affected,
-            reasons=diagnosis.reasons or [],
+            reasons=[*(diagnosis.reasons or []), *self.warnings],
             rule_version=diagnosis.rule_version,
             model_version=self.model_version,
             processing_ms=round(elapsed, 2),

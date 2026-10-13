@@ -31,3 +31,4 @@ class HealthResponse(BaseModel):
     model_loaded: bool
     model_version: str
     error: str | None = None  # причина, если модель не готова
+    warnings: list[str] = Field(default_factory=list)  # модель готова, но с оговорками
