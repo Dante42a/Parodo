@@ -3,6 +3,8 @@ name: parodo
 
 services:
   api:
+    # На сервере PARODO_TAG = sha коммита (.env релиза) — образ скачивается из GHCR; локально — собирается
+    image: ghcr.io/dante42a/parodo-api:${PARODO_TAG:-local}
     build:
       context: .
       dockerfile: Dockerfile.api
@@ -29,6 +31,8 @@ services:
       start_period: 60s  # импорт torch на 1 CPU занимает время; /readyz покажет, когда модель загрузится
 
   frontend:
+    # На сервере PARODO_TAG = sha коммита (.env релиза) — образ скачивается из GHCR; локально — собирается
+    image: ghcr.io/dante42a/parodo-frontend:${PARODO_TAG:-local}
     build:
       context: .
       dockerfile: Dockerfile.frontend

@@ -40,9 +40,13 @@ jobs:
       - run: pip install -r requirements-ci.txt
       - run: pytest -v
 
-  # Сборка образов + проверка изнутри: успешная сборка ещё не значит, что в образе есть библиотеки инференса
+  # Сборка образов + проверка изнутри: успешная сборка ещё не значит, что в образе есть библиотеки инференса.
+  # На push в main проверенные образы публикуются в GHCR с тегом = sha коммита — их забирает deploy.yml.
   docker:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-buildx-action@v3
@@ -52,6 +56,7 @@ jobs:
           context: .
           file: Dockerfile.api
           tags: parodo-api:ci
+          labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
           load: true
           cache-from: type=gha,scope=api
           cache-to: type=gha,scope=api,mode=max
@@ -61,6 +66,8 @@ jobs:
           context: .
           file: Dockerfile.frontend
           tags: parodo-frontend:ci
+          labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
+          load: true
           cache-from: type=gha,scope=frontend
           cache-to: type=gha,scope=frontend,mode=max
       - name: API image has inference libraries
@@ -68,6 +75,16 @@ jobs:
       - name: API image starts and answers /healthz
         run: |
           docker run -d --name api -p 8000:8000 parodo-api:ci
-          for i in $(seq 1 60); do curl -fs http://localhost:8000/healthz && exit 0; sleep 2; done
+          for _ in $(seq 1 60); do curl -fs http://localhost:8000/healthz && exit 0; sleep 2; done
           docker logs api
           exit 1
+      - name: Push images to GHCR (only main)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          owner="${GITHUB_REPOSITORY_OWNER,,}"  # имя в GHCR — строчными буквами
+          for name in api frontend; do
+            image="ghcr.io/$owner/parodo-$name:${{ github.sha }}"
+            docker tag "parodo-$name:ci" "$image"
+            docker push "$image"
+          done
