@@ -1,0 +1,67 @@
+name: Deploy
+
+# Выкатка на сервер: автоматически — после успешного CI на main (образы к этому моменту уже в GHCR);
+# вручную (Actions → Deploy → Run workflow) — повторный деплой или откат на любой прошлый коммит main.
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: "Полный sha коммита из main (пусто — последний коммит main)"
+        required: false
+
+concurrency:
+  group: deploy  # деплои строго по одному
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    # автоматически — только если CI прошёл и запущен пушем в main (не PR)
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+    runs-on: ubuntu-latest
+    environment: production  # секреты SSH_*; деплой разрешён только из main
+    env:
+      SHA: ${{ inputs.sha || github.event.workflow_run.head_sha || github.sha }}
+    steps:
+      # sha при ручном запуске вводит человек и он попадает в команду на сервере — пропускаем только 40 hex-символов
+      - name: Validate sha
+        run: '[[ "$SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "Некорректный sha: $SHA"; exit 1; }'
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SHA }}
+
+      - name: SSH access
+        run: |
+          install -d -m 700 ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          # ключ хоста заранее известен — подключаемся только к своему серверу
+          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          cat > ~/.ssh/config <<EOF
+          Host server
+            HostName ${{ secrets.SSH_HOST }}
+            Port ${{ secrets.SSH_PORT }}
+            User ${{ secrets.SSH_USER }}
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+          EOF
+
+      - name: Upload release
+        run: |
+          git archive --format=tar.gz -o "parodo-$SHA.tar.gz" "$SHA"
+          scp "parodo-$SHA.tar.gz" deploy/remote_deploy.sh server:
+
+      - name: Deploy on server
+        run: |
+          # $SHA подставляется здесь (проверен выше), ~ раскрывается на сервере
+          # shellcheck disable=SC2029
+          ssh server "bash remote_deploy.sh $SHA ~/parodo-$SHA.tar.gz"
