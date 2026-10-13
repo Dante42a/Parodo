@@ -1,6 +1,6 @@
 # Зависимости для CI: API-слой + тесты stage2 (без весов моделей).
 # torch ставится отдельно с CPU-индексом — см. .github/workflows/ci.yml
 -r requirements-api.txt
-segmentation-models-pytorch>=0.3.4   # тесты загрузки модели (маленькая DeepLabV3+)
+segmentation-models-pytorch==0.5.0   # как в requirements-app.txt; тесты загрузки модели
 scipy>=1.11.0
 pytest>=8.0.0
