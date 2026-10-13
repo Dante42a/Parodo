@@ -1,7 +1,8 @@
 import logging
 import time
+from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import FastAPI, File, HTTPException, Response, UploadFile
 from prometheus_client import Counter, Histogram, make_asgi_app
 
 from src.api.schemas import AnalysisResponse, HealthResponse
@@ -13,12 +14,22 @@ logger = logging.getLogger("parodo.api")
 REQUESTS = Counter("parodo_requests_total", "Requests", ["endpoint", "status"])
 LATENCY = Histogram("parodo_analysis_seconds", "Analysis latency")
 
+service = AnalysisService()
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    # Загрузка модели стартует сразу, а не при первом анализе — /readyz отражает реальное состояние
+    service.start_loading()
+    yield
+
+
 app = FastAPI(
     title="Parodo Research API",
     version="0.1.0",
     description="Research-only periodontal image analysis. Not a medical device.",
+    lifespan=lifespan,
 )
-service = AnalysisService()
 app.mount("/metrics", make_asgi_app())
 
 
@@ -28,9 +39,16 @@ def health() -> HealthResponse:
 
 
 @app.get("/readyz", response_model=HealthResponse)
-def ready() -> HealthResponse:
-    status = "ready" if service.loaded else "model_not_loaded"
-    return HealthResponse(status=status, model_loaded=service.loaded, model_version=service.model_version)
+def ready(response: Response) -> HealthResponse:
+    # 200 — модель готова, 503 — нет (status и error объясняют почему)
+    if not service.loaded:
+        response.status_code = 503
+    return HealthResponse(
+        status=service.state,
+        model_loaded=service.loaded,
+        model_version=service.model_version,
+        error=service.error,
+    )
 
 
 @app.post("/v1/analyze", response_model=AnalysisResponse)

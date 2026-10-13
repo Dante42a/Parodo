@@ -30,3 +30,4 @@ class HealthResponse(BaseModel):
     status: str
     model_loaded: bool
     model_version: str
+    error: str | None = None  # причина, если модель не готова
