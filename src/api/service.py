@@ -19,6 +19,8 @@ logger = logging.getLogger("parodo.api")
 
 ALLOWED_CONTENT_TYPES = {"image/png", "image/jpeg", "image/webp"}
 MAX_UPLOAD_BYTES = int(os.getenv("PARODO_MAX_UPLOAD_BYTES", str(20 * 1024 * 1024)))
+# Сколько запрос ждёт своей очереди на инференс, прежде чем получить 503 «занято»
+ANALYZE_WAIT_S = float(os.getenv("PARODO_ANALYZE_WAIT_S", "120"))
 DISCLAIMER = (
     "Исследовательский прототип. Не является медицинским изделием и не предназначен "
     "для постановки диагноза или принятия клинических решений. Требуется проверка врачом."
@@ -59,6 +61,10 @@ class ModelUnavailable(RuntimeError):
     """Модель не готова к анализу (→ HTTP 503)."""
 
 
+class ServiceBusy(ModelUnavailable):
+    """Очередь на инференс не подошла за ANALYZE_WAIT_S (→ HTTP 503, можно повторить)."""
+
+
 class ModelLoadError(RuntimeError):
     """Загрузка не удалась; текст — понятная причина для /readyz."""
 
@@ -92,6 +98,8 @@ class AnalysisService:
     def __init__(self) -> None:
         self._pipeline = None
         self._lock = threading.Lock()
+        # Инференс строго по одному: на 1 CPU параллельность не ускоряет, а память удваивает
+        self._infer_lock = threading.Lock()
         self.loader: threading.Thread | None = None
         self.state = ModelState.NOT_STARTED
         self.error: str | None = None
@@ -213,8 +221,13 @@ class AnalysisService:
             self.load_safely()
         if self.state != ModelState.READY:
             raise ModelUnavailable(self.error or f"model is {self.state}")
-        started = time.perf_counter()
-        result = self._pipeline.run(image)
+        if not self._infer_lock.acquire(timeout=ANALYZE_WAIT_S):
+            raise ServiceBusy(f"сервис занят другим анализом дольше {ANALYZE_WAIT_S:.0f} с — повторите позже")
+        try:
+            started = time.perf_counter()
+            result = self._pipeline.run(image)
+        finally:
+            self._infer_lock.release()
         elapsed = (time.perf_counter() - started) * 1000
         ok, overlay = cv2.imencode(".png", result.overlay)
         if not ok:
