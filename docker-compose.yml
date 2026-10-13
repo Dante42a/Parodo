@@ -17,6 +17,10 @@ services:
     ports:
       - "127.0.0.1:8000:8000"
     restart: unless-stopped
+    # Защита соседей по серверу (Vikunja и др.): при нехватке памяти ядро убьёт только API, Docker его перезапустит.
+    # Замер в условиях сервера: готовая модель ~610 МБ, пик при анализах ~1 ГБ.
+    mem_limit: 1100m
+    memswap_limit: 1600m  # RAM + до 500 МБ swap
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')"]
       interval: 20s
