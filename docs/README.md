@@ -21,6 +21,7 @@
 - [Управление проектом](project_management.md)
 - [Архитектура](architecture.md)
 - [Эксплуатация](operations.md)
+- [API для фронтенда](api.md)
 - [Сценарий защиты](demo_script.md)
 - [Протокол приёмки](acceptance_report.md)
 - [Проверка доступа](access_audit.md)
