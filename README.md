@@ -178,23 +178,27 @@ python app/app.py \
 
 ### Интеграционный сервис
 
-Проверить API и правила можно без весов; запрос анализа в этом режиме корректно вернёт `503`:
+Проверить API и правила можно без весов; запрос анализа в этом режиме корректно вернёт `503`
+(Python 3.11–3.12; на 3.13+ не соберётся закреплённый `pydantic`):
 
 ```bash
 python -m venv .venv
 . .venv/bin/activate
-pip install -r requirements-api.txt pytest ruff
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+pip install -r requirements-ci.txt ruff
 pytest
 uvicorn src.api.main:app --port 8000
 ```
 
-Для полной демонстрации разместите проверенные веса в `checkpoints/`, укажите пути и версии по `.env.example`, затем запустите:
+Для полной демонстрации положите веса в `checkpoints/semantic.ckpt` и `checkpoints/yolo.pt` (вне Git), затем запустите:
 
 ```bash
 docker compose up --build
 ```
 
-- Streamlit: `http://localhost:8501`
+Готовность модели, её версия и причина ошибки — `curl http://localhost:8000/readyz`.
+
+- Streamlit: `http://localhost`
 - OpenAPI: `http://localhost:8000/docs`
 - Prometheus: `http://localhost:9090`
 

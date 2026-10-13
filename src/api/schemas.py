@@ -26,7 +26,22 @@ class AnalysisResponse(BaseModel):
     disclaimer: str
 
 
+class ModelInfo(BaseModel):
+    """Что именно загружено: пути и полные sha256 (сверяются с `sha256sum` на сервере)."""
+
+    arch: str
+    config: str
+    config_sha256: str
+    semantic_path: str
+    semantic_sha256: str
+    yolo_path: str | None = None
+    yolo_sha256: str | None = None
+
+
 class HealthResponse(BaseModel):
     status: str
     model_loaded: bool
     model_version: str
+    error: str | None = None  # причина, если модель не готова
+    warnings: list[str] = Field(default_factory=list)  # модель готова, но с оговорками
+    model_info: ModelInfo | None = None

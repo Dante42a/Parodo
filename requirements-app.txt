@@ -1,13 +1,16 @@
-# Зависимости для инференса на сервере (без обучения, MLflow, ноутбуков).
-# torch/torchvision ставятся отдельно CPU-сборкой, до этого файла:
-#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
-#   pip install -r requirements-app.txt
+# Зависимости для инференса (образ API, сервер) — без обучения, MLflow, ноутбуков.
+# torch/torchvision ставятся отдельно CPU-сборкой, до этого файла (см. Dockerfile.api):
+#   pip install torch==2.14.1 torchvision==0.29.1 --index-url https://download.pytorch.org/whl/cpu
+#   pip install -r requirements-api.txt -r requirements-app.txt
 # Полный набор для обучения — requirements.txt
+#
+# Версии закреплены: с ними проверена загрузка боевого чекпойнта DeepLabV3+ (epoch 51) и YOLO.
+# Обновлять только с повторной проверкой — другая версия smp может не принять веса.
 
-segmentation-models-pytorch>=0.3.4   # DeepLabV3+
-ultralytics>=8.3.0                   # YOLOv8-seg (зубы)
+segmentation-models-pytorch==0.5.0   # DeepLabV3+
+ultralytics==8.4.176                 # YOLOv8-seg (зубы)
 omegaconf>=2.3.0
-numpy>=1.26.0
 scipy>=1.11.0
-# ultralytics всё равно тянет opencv-python (не headless) — ему нужны libgl1 и libglib2.0-0 из apt
-opencv-python>=4.10.0
+# ultralytics требует opencv-python (не headless). Версия = opencv-python-headless из requirements-api.txt:
+# оба пакета пишут в один каталог cv2, при разных версиях файлы перемешаются
+opencv-python==4.10.0.84

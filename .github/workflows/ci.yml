@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 jobs:
-  # Имена джобов (lint, test) — это required checks в ruleset protect-main. Не переименовывать.
+  # Имена джобов (lint, test, docker) — это required checks в ruleset protect-main. Не переименовывать.
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -35,6 +35,39 @@ jobs:
           cache: pip
           cache-dependency-path: requirements-ci.txt
       # CPU-сборка torch (~200 МБ вместо ~2.5 ГБ с CUDA)
-      - run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+      # версии — как в Dockerfile.api: тесты идут на том же torch, что поедет на сервер
+      - run: pip install torch==2.14.1 torchvision==0.29.1 --index-url https://download.pytorch.org/whl/cpu
       - run: pip install -r requirements-ci.txt
       - run: pytest -v
+
+  # Сборка образов + проверка изнутри: успешная сборка ещё не значит, что в образе есть библиотеки инференса
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build API image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile.api
+          tags: parodo-api:ci
+          load: true
+          cache-from: type=gha,scope=api
+          cache-to: type=gha,scope=api,mode=max
+      - name: Build frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile.frontend
+          tags: parodo-frontend:ci
+          cache-from: type=gha,scope=frontend
+          cache-to: type=gha,scope=frontend,mode=max
+      - name: API image has inference libraries
+        run: docker run --rm parodo-api:ci python -c "import torch, segmentation_models_pytorch, ultralytics, src.api.main"
+      - name: API image starts and answers /healthz
+        run: |
+          docker run -d --name api -p 8000:8000 parodo-api:ci
+          for i in $(seq 1 60); do curl -fs http://localhost:8000/healthz && exit 0; sleep 2; done
+          docker logs api
+          exit 1

@@ -8,6 +8,7 @@ Two-model architecture:
 If no YOLO model is provided, falls back to connected-components on tooth semantic mask.
 """
 
+import logging
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
@@ -26,6 +27,8 @@ from src.pipeline.stage1_segment import (
 from src.pipeline.stage2_measure import measure_bone_loss
 from src.pipeline.stage2_classify import classify_image, ImageDiagnosis
 from src.utils.visualization import overlay_masks
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -62,7 +65,10 @@ class PeriodontalPipeline:
                 self.seg_model = None
             else:
                 from src.models.model_factory import create_model
-                self.seg_model = create_model(self.cfg)
+                # Все веса придут из чекпойнта — предобученные ImageNet-веса энкодера не скачиваем
+                # (конфиг общий с обучением, где они нужны; здесь они лишние ~170 МБ и требуют интернет)
+                model_cfg = OmegaConf.merge(self.cfg, {"model": {"encoder_weights": None}})
+                self.seg_model = create_model(model_cfg)
                 state = torch.load(path, map_location="cpu", weights_only=False)
                 raw = state.get("state_dict", state)
                 if all(k.startswith("model.") for k in raw if not k.startswith("criterion")):
@@ -77,12 +83,19 @@ class PeriodontalPipeline:
 
         # ── YOLO tooth instance model ────────────────────────────────────────
         self.yolo_model = None
-        if yolo_path and Path(yolo_path).exists():
-            from ultralytics import YOLO
-            self.yolo_model = YOLO(yolo_path)
-            print(f"YOLO tooth model loaded: {yolo_path}")
+        if yolo_path:
+            self.load_yolo(yolo_path)
         else:
-            print("No YOLO model — falling back to connected-components for tooth instances.")
+            # YOLO можно догрузить позже через load_yolo() (так делает API); до этого — запасной алгоритм
+            logger.info("YOLO not loaded yet — connected-components fallback until load_yolo() is called")
+
+    def load_yolo(self, yolo_path: str) -> None:
+        # Путь задан явно — его отсутствие считаем ошибкой, а не поводом молча работать без YOLO
+        if not Path(yolo_path).is_file():
+            raise FileNotFoundError(f"YOLO weights not found: {yolo_path}")
+        from ultralytics import YOLO
+        self.yolo_model = YOLO(yolo_path)
+        logger.info("YOLO tooth model loaded: %s", yolo_path)
 
     def _preprocess(self, image: np.ndarray) -> tuple:
         """Return (tensor (1,3,H,W), rgb_hwc uint8) at cfg image_size."""

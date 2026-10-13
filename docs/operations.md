@@ -5,22 +5,24 @@
 ```bash
 python -m venv .venv
 . .venv/bin/activate
-pip install -r requirements-api.txt pytest ruff
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+pip install -r requirements-ci.txt ruff
 pytest
 uvicorn src.api.main:app --port 8000
 curl http://localhost:8000/healthz
 ```
 
-`healthz` проверяет процесс. `readyz` сообщает, загружена ли модель. Анализ без настроенных весов завершается HTTP 503.
+`healthz` проверяет, что процесс жив. `readyz` отвечает 200, когда модель загружена, и 503 — пока она
+грузится (`loading`), не настроена (`not_configured`) или не загрузилась (`load_failed`, причина — в `error`).
+Там же — вычисленная версия модели и sha256 весов. Анализ без готовой модели завершается HTTP 503.
 
-По умолчанию контейнер API собирается в облегчённом режиме без библиотек обучения. Для
-полноценного инференса разместите веса в `checkpoints/` и соберите API с аргументом
-`INSTALL_ML=true`.
+Образ API содержит библиотеки инференса (torch CPU, segmentation-models-pytorch, ultralytics — версии
+закреплены в `requirements-app.txt`), но не библиотеки обучения.
 
 ## Демонстрация с весами
 
 1. Разместить проверенные веса в `checkpoints/` вне Git.
-2. Скопировать `.env.example` в локальный `.env` и указать пути/версии.
+2. Скопировать `.env.example` в локальный `.env` и указать пути (версия модели вычисляется сама).
 3. Запустить `docker compose up --build`.
 4. UI: `http://localhost`; OpenAPI и Prometheus по умолчанию доступны только локально на сервере: `127.0.0.1:8000` и `127.0.0.1:9090`.
 

@@ -1,0 +1,10 @@
+# Контекст сборки — только то, что нужно образам (Dockerfile.api / Dockerfile.frontend).
+# Без этого файла Docker отправлял бы в сборку весь каталог: checkpoints/ (~64 ГБ) и data/ (~17 ГБ).
+*
+!configs/
+!src/
+!frontend/
+!requirements-api.txt
+!requirements-app.txt
+!requirements-frontend.txt
+**/__pycache__
