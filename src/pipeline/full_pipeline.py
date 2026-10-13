@@ -65,7 +65,10 @@ class PeriodontalPipeline:
                 self.seg_model = None
             else:
                 from src.models.model_factory import create_model
-                self.seg_model = create_model(self.cfg)
+                # Все веса придут из чекпойнта — предобученные ImageNet-веса энкодера не скачиваем
+                # (конфиг общий с обучением, где они нужны; здесь они лишние ~170 МБ и требуют интернет)
+                model_cfg = OmegaConf.merge(self.cfg, {"model": {"encoder_weights": None}})
+                self.seg_model = create_model(model_cfg)
                 state = torch.load(path, map_location="cpu", weights_only=False)
                 raw = state.get("state_dict", state)
                 if all(k.startswith("model.") for k in raw if not k.startswith("criterion")):

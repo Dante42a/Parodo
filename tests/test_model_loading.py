@@ -184,3 +184,28 @@ def test_version_is_unconfigured_until_ready(make_client, tmp_path):
     body = client.get("/readyz").json()
     assert body["model_version"] == "unconfigured"
     assert body["model_info"] is None
+
+
+# ── Без скачивания ImageNet-весов ────────────────────────────────────────────
+
+
+def test_checkpoint_load_does_not_request_imagenet_weights(make_client, tiny_weights, tmp_path, monkeypatch):
+    import src.models.model_factory as factory
+
+    # конфиг как в боевом deeplabv3plus.yaml — с encoder_weights: imagenet
+    config = tmp_path / "imagenet.yaml"
+    config.write_text(TINY_CONFIG.replace("encoder_weights: null", "encoder_weights: imagenet"), encoding="utf-8")
+
+    requested = []
+    real_create_model = factory.create_model
+
+    def spy(cfg):
+        requested.append(cfg.model.encoder_weights)
+        return real_create_model(cfg)
+
+    monkeypatch.setattr(factory, "create_model", spy)
+    _, service = loaded(make_client, PARODO_MODEL_PATH=tiny_weights, PARODO_CONFIG=config)
+
+    assert service.state == ModelState.READY
+    assert requested == [None]  # модель создана без предобученных весов — скачивания не было
+    assert service._pipeline.cfg.model.encoder_weights == "imagenet"  # сам конфиг не изменён
