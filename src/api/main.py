@@ -7,6 +7,7 @@ from fastapi import FastAPI, File, HTTPException, Response, UploadFile
 from fastapi.concurrency import run_in_threadpool
 from prometheus_client import Counter, Histogram, make_asgi_app
 
+import src.api.service as service_module
 from src.api.schemas import AnalysisResponse, HealthResponse
 from src.api.service import AnalysisService, InputError, ModelUnavailable, decode_image
 
@@ -59,7 +60,9 @@ def ready(response: Response) -> HealthResponse:
 async def analyze(file: UploadFile = File(...)) -> AnalysisResponse:
     started = time.perf_counter()
     try:
-        payload = await file.read()
+        # не больше лимита + 1 байт: файл сверх лимита не попадает в память целиком,
+        # а лишний байт показывает, что лимит превышен (проверка — в decode_image)
+        payload = await file.read(service_module.MAX_UPLOAD_BYTES + 1)
         image = decode_image(payload, file.content_type)
         with LATENCY.time():
             # инференс — в отдельном потоке: пока он идёт, /healthz, /readyz и /metrics отвечают

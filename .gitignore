@@ -90,3 +90,6 @@ parodo-deploy-key.pub
 data/annotations/*.png
 data/annotations/*.jpg
 data/annotations/*.jpeg
+
+# Отчёт pytest для сводки CI (scripts/test_summary.py)
+pytest-report.xml

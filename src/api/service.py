@@ -33,17 +33,17 @@ class InputError(ValueError):
 
 def decode_image(payload: bytes, content_type: str | None) -> np.ndarray:
     if content_type not in ALLOWED_CONTENT_TYPES:
-        raise InputError("Поддерживаются PNG, JPEG и WebP")
+        raise InputError("Поддерживаются PNG, JPEG и WebP.")
     if not payload:
-        raise InputError("Файл пуст")
+        raise InputError("Файл пуст.")
     if len(payload) > MAX_UPLOAD_BYTES:
-        raise InputError(f"Файл превышает лимит {MAX_UPLOAD_BYTES} байт")
+        raise InputError(f"Файл превышает лимит {MAX_UPLOAD_BYTES / 2**20:g} МБ.")
     image = cv2.imdecode(np.frombuffer(payload, dtype=np.uint8), cv2.IMREAD_COLOR)
     if image is None:
-        raise InputError("Файл не удалось декодировать как изображение")
+        raise InputError("Файл не удалось декодировать как изображение.")
     h, w = image.shape[:2]
     if h < 64 or w < 64:
-        raise InputError("Минимальный размер изображения — 64×64")
+        raise InputError("Минимальный размер изображения — 64×64.")
     return image
 
 

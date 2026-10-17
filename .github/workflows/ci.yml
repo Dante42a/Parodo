@@ -38,7 +38,11 @@ jobs:
       # версии — как в Dockerfile.api: тесты идут на том же torch, что поедет на сервер
       - run: pip install torch==2.14.1 torchvision==0.29.1 --index-url https://download.pytorch.org/whl/cpu
       - run: pip install -r requirements-ci.txt
-      - run: pytest -v
+      - run: pytest -v --junitxml=pytest-report.xml
+      # Сводка на странице запуска: сколько прошло/упало и что именно — без чтения логов
+      - name: Test summary
+        if: always()
+        run: python scripts/test_summary.py pytest-report.xml >> "$GITHUB_STEP_SUMMARY"
 
   # Сборка образов + проверка изнутри: успешная сборка ещё не значит, что в образе есть библиотеки инференса.
   # На push в main проверенные образы публикуются в GHCR с тегом = sha коммита — их забирает deploy.yml.
