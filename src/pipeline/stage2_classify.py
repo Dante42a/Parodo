@@ -110,7 +110,7 @@ def classify_image(
             overall_severity=None,
             num_affected=0,
             status="needs_review",
-            reasons=["No valid tooth measurements were produced"],
+            reasons=["Не удалось получить достоверные измерения зубов"],
         )
 
     affected = [t for t in per_tooth if t.condition != "Normal"]
