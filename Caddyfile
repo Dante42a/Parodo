@@ -1,0 +1,13 @@
+{  
+	email admin@kirc.space
+}  
+parodo.kirc.space {
+	reverse_proxy frontend:8501
+	# Security headers (optional)    
+	header { 
+		X-Content-Type-Options nosniff   
+		X-Frame-Options DENY     
+		Referrer-Policy strict-origin-when-cross-origin  
+		-Server  
+	}
+}  

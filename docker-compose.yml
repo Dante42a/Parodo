@@ -39,11 +39,22 @@ services:
     environment:
       PARODO_API_URL: http://api:8000
     ports:
-      - "80:8501"
+      - "127.0.0.1:8501:8501"
     restart: unless-stopped
     depends_on:
       api:
         condition: service_healthy
+
+  revproxy:
+    image: caddy:2
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    depends_on:
+      - frontend
+    restart: unless-stopped
 
   prometheus:
     image: prom/prometheus:v2.55.1
